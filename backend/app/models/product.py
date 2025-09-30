@@ -11,6 +11,7 @@ class Product(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     product_type = Column(String, nullable=False)  # pension, investment, savings, protection
+    module = Column(String(50), nullable=True)  # Module: protection, savings, investment, retirement
     product_name = Column(String, nullable=False)
     provider = Column(String)
     reference_number = Column(String)

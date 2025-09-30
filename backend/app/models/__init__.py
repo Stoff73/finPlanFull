@@ -22,6 +22,8 @@ from app.models.pension import (
     LifetimeAllowanceTracking,
     AutoEnrolmentTracking
 )
+from app.models.module_goal import ModuleGoal
+from app.models.module_metric import ModuleMetric
 
 __all__ = [
     "User",
@@ -45,5 +47,7 @@ __all__ = [
     "CarryForward",
     "PensionProjection",
     "LifetimeAllowanceTracking",
-    "AutoEnrolmentTracking"
+    "AutoEnrolmentTracking",
+    "ModuleGoal",
+    "ModuleMetric"
 ]

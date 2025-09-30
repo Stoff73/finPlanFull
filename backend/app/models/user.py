@@ -35,3 +35,7 @@ class User(Base):
     pension_projections = relationship("PensionProjection", back_populates="user", cascade="all, delete-orphan")
     lifetime_allowance_tracking = relationship("LifetimeAllowanceTracking", back_populates="user", uselist=False, cascade="all, delete-orphan")
     auto_enrolment_tracking = relationship("AutoEnrolmentTracking", back_populates="user", uselist=False, cascade="all, delete-orphan")
+
+    # Module-based relationships
+    module_goals = relationship("ModuleGoal", back_populates="user", cascade="all, delete-orphan")
+    module_metrics = relationship("ModuleMetric", back_populates="user", cascade="all, delete-orphan")
