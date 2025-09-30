@@ -264,17 +264,54 @@ This approach:
 
 #### Task 36: Create Investment Dashboard Page 📈 MEDIUM
 
-**Status:** ⬜ Not Started | **Dependencies:** Tasks 14-17
+**Status:** ✅ Completed (2025-09-30) | **Dependencies:** Tasks 14-17
 
 **Actions:**
 
-- [ ] Create `frontend/src/pages/modules/investment/InvestmentDashboard.tsx`
-- [ ] Implement dashboard layout
-- [ ] Commit changes
+- [x] Create `frontend/src/pages/modules/investment/InvestmentDashboard.tsx`
+- [x] Fix interface to match backend API response structure
+- [x] Implement dashboard layout with ModuleHeader
+- [x] Implement status message card
+- [x] Implement key metrics section (total value, contributions, gain/loss, accounts)
+- [x] Implement asset allocation section with formatted types
+- [x] Implement portfolio holdings section with product cards
+- [x] Implement performance analytics section
+- [x] Fix TypeScript spacing issues across all investment module files
+- [x] Test TypeScript compilation - SUCCESS
+- [x] Commit changes
 
 **Files Created:**
 
-- `frontend/src/pages/modules/investment/InvestmentDashboard.tsx`
+- `frontend/src/pages/modules/investment/InvestmentDashboard.tsx` ✅ (412 lines)
+
+**Files Modified:**
+
+- `frontend/src/pages/modules/investment/InvestmentDashboard.tsx` ✅ (updated to match API)
+- `frontend/src/pages/modules/investment/InvestmentAnalytics.tsx` ✅ (fixed spacing)
+- `frontend/src/pages/modules/investment/InvestmentPortfolio.tsx` ✅ (fixed spacing)
+- `frontend/src/pages/modules/investment/InvestmentRebalancing.tsx` ✅ (fixed spacing)
+
+**Features Implemented:**
+
+- Dashboard fetches data from `/api/modules/investment/dashboard`
+- Status message display with color-coded status cards (excellent/good/neutral/attention_needed)
+- Key metrics: total portfolio value, contributions, gain/loss, account count
+- Asset allocation breakdown with percentages and formatted types
+- Portfolio holdings list using ModuleProductCard
+- Performance analytics: gain/loss, dividends, contributions
+- Helper function for asset type formatting (stocks, bonds, ETFs, etc.)
+- Empty states with CTAs
+- Loading and error states
+- Responsive grid layouts
+- TypeScript compilation successful with zero errors
+
+**Notes:**
+
+- Dashboard properly integrates with existing backend API
+- All TypeScript types match backend response structure
+- Fixed spacing property issues (2xl → xxl, 3xl → xxxl) across all investment module files
+- Uses consistent ModuleHeader, ModuleMetricCard, and ModuleProductCard components
+- Frontend builds successfully
 
 ---
 

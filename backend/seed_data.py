@@ -207,6 +207,7 @@ def create_products(db, user_id):
         product_name="Workplace Pension",
         provider="Aviva",
         product_type="pension",
+        module="retirement",  # Assign to retirement module
         current_value=185000,
         contributions_monthly=1500,
         pension_type="defined_contribution",
@@ -255,6 +256,7 @@ def create_products(db, user_id):
             investment = Investment(
                 user_id=user_id,
                 product_type="investment",
+                module="investment",  # Assign to investment module
                 **inv_data
             )
             db.add(investment)
@@ -291,6 +293,7 @@ def create_products(db, user_id):
             protection = Protection(
                 user_id=user_id,
                 product_type="protection",
+                module="protection",  # Assign to protection module
                 current_value=0,
                 **prot_data
             )

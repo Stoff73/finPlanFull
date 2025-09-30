@@ -11,7 +11,7 @@ class Product(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     product_type = Column(String, nullable=False)  # pension, investment, savings, protection
-    module = Column(String(50), nullable=True)  # Module: protection, savings, investment, retirement
+    module = Column(String(50), nullable=True, index=True)  # Module: protection, savings, investment, retirement
     product_name = Column(String, nullable=False)
     provider = Column(String)
     reference_number = Column(String)
@@ -49,6 +49,25 @@ class Product(Base):
     pension_details = relationship("PensionDetail", back_populates="product", uselist=False, cascade="all, delete-orphan")
     investment_details = relationship("InvestmentDetail", back_populates="product", uselist=False, cascade="all, delete-orphan")
     protection_details = relationship("ProtectionDetail", back_populates="product", uselist=False, cascade="all, delete-orphan")
+
+    # Property aliases for module API compatibility
+    @property
+    def name(self):
+        """Alias for product_name to support module APIs."""
+        return self.product_name
+
+    @name.setter
+    def name(self, value):
+        self.product_name = value
+
+    @property
+    def value(self):
+        """Alias for current_value to support module APIs."""
+        return self.current_value
+
+    @value.setter
+    def value(self, val):
+        self.current_value = val
 
 
 class PensionDetail(Base):
