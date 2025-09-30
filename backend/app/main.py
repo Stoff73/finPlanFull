@@ -19,11 +19,17 @@ from app.api.pension.pension_schemes import router as pension_schemes_router
 from app.api.pension.pension_optimization import router as pension_optimization_router
 from app.api.docs import router as docs_router
 
-# Module routers
+# Module routers - Protection
 from app.api.modules.protection.protection import router as protection_main_router
 from app.api.modules.protection.products import router as protection_products_router
 from app.api.modules.protection.analytics import router as protection_analytics_router
 from app.api.modules.protection.needs_analysis import router as protection_needs_router
+
+# Module routers - Savings
+from app.api.modules.savings.savings import router as savings_main_router
+from app.api.modules.savings.accounts import router as savings_accounts_router
+from app.api.modules.savings.goals import router as savings_goals_router
+from app.api.modules.savings.analytics import router as savings_analytics_router
 
 settings = get_settings()
 
@@ -68,6 +74,11 @@ app.include_router(protection_main_router, prefix="/api/modules/protection", tag
 app.include_router(protection_products_router, prefix="/api/modules/protection/products", tags=["Protection Module - Products"])
 app.include_router(protection_analytics_router, prefix="/api/modules/protection/analytics", tags=["Protection Module - Analytics"])
 app.include_router(protection_needs_router, prefix="/api/modules/protection/needs-analysis", tags=["Protection Module - Needs Analysis"])
+
+app.include_router(savings_main_router, prefix="/api/modules/savings", tags=["Savings Module"])
+app.include_router(savings_accounts_router, prefix="/api/modules/savings/accounts", tags=["Savings Module - Accounts"])
+app.include_router(savings_goals_router, prefix="/api/modules/savings/goals", tags=["Savings Module - Goals"])
+app.include_router(savings_analytics_router, prefix="/api/modules/savings/analytics", tags=["Savings Module - Analytics"])
 
 
 @app.get("/")

@@ -11,6 +11,36 @@
 6. Update acceptance criteria with actual results
 7. Commit this file with every code commit
 
+## 🎯 STRATEGIC GUIDANCE FOR ALL AGENTS
+
+**Task Execution Order:**
+- ✅ **Current Strategy (RECOMMENDED):** Complete all backend modules first (Phase 2), then all frontend (Phase 3)
+  - **Why:** Maintains context, reduces context switching, establishes consistent patterns
+  - **Benefit:** All 5 modules follow same structure, easier to copy/adapt patterns
+
+- ❌ **Alternative (NOT RECOMMENDED):** Complete one module fully (backend + frontend) before moving to next
+  - **Why avoided:** Requires constant context switching between backend/frontend
+  - **Downside:** Each module feels isolated, harder to maintain consistency
+
+**Testing Strategy:**
+- Integration tests deferred to Phase 7 (Task 71) to maintain velocity
+- Focus on implementation completeness over test coverage in Phases 2-6
+- All tests will be written comprehensively in Phase 7 before launch
+
+**Pattern Replication:**
+- Protection module (Tasks 7-10) establishes the pattern for all other modules
+- Each subsequent module (Savings, Investment, Retirement, IHT) follows the same 4-file structure:
+  1. Main router (dashboard + summary endpoints)
+  2. Products/CRUD endpoints
+  3. Analytics endpoint
+  4. Specialized calculator/tool endpoint
+
+**Efficiency Tips:**
+- Copy Protection module files as templates for other modules
+- Adjust business logic, keep structure identical
+- Reuse Pydantic schemas with modifications
+- All modules use same imports: `app.database`, `app.api.auth.auth`
+
 **Last Updated:** 2025-09-30 (Phase 2 Protection Module Complete)
 
 ---
