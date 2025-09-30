@@ -19,6 +19,12 @@ from app.api.pension.pension_schemes import router as pension_schemes_router
 from app.api.pension.pension_optimization import router as pension_optimization_router
 from app.api.docs import router as docs_router
 
+# Module routers
+from app.api.modules.protection.protection import router as protection_main_router
+from app.api.modules.protection.products import router as protection_products_router
+from app.api.modules.protection.analytics import router as protection_analytics_router
+from app.api.modules.protection.needs_analysis import router as protection_needs_router
+
 settings = get_settings()
 
 # Create database tables
@@ -56,6 +62,12 @@ app.include_router(pension_uk_router, prefix="/api", tags=["UK Pension"])
 app.include_router(pension_schemes_router, prefix="/api", tags=["Pension Schemes"])
 app.include_router(pension_optimization_router, prefix="/api", tags=["Pension Optimization"])
 app.include_router(docs_router, prefix="/api/docs", tags=["Documentation"])
+
+# Module routers
+app.include_router(protection_main_router, prefix="/api/modules/protection", tags=["Protection Module"])
+app.include_router(protection_products_router, prefix="/api/modules/protection/products", tags=["Protection Module - Products"])
+app.include_router(protection_analytics_router, prefix="/api/modules/protection/analytics", tags=["Protection Module - Analytics"])
+app.include_router(protection_needs_router, prefix="/api/modules/protection/needs-analysis", tags=["Protection Module - Needs Analysis"])
 
 
 @app.get("/")
