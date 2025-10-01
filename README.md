@@ -1,8 +1,46 @@
 # Financial Planning Application
 
-A comprehensive financial planning application featuring UK Inheritance Tax calculations, pension planning, financial statements management, and AI-powered financial advice.
+A comprehensive financial planning application with **goal-based modules** that organize your financial life around 5 key life goals: Protection, Savings, Investment, Retirement, and IHT Planning.
+
+**Version 2.0** introduces a goal-based approach that makes financial planning clearer, more focused, and easier to understand.
 
 ## ✨ Key Features
+
+### Goal-Based Modules (v2.0) 🆕
+The application organizes all financial planning around **5 life goals**:
+
+1. **Protection Module** - Ensure adequate coverage against life's risks
+   - Life insurance, critical illness, income protection
+   - Coverage needs analysis calculator
+   - Gap analysis and premium tracking
+
+2. **Savings Module** - Build and maintain emergency funds
+   - Emergency fund tracking (months of expenses)
+   - Savings goals with progress tracking
+   - Multiple savings account management
+
+3. **Investment Module** - Grow your wealth through investments
+   - Portfolio tracking and performance analysis
+   - Asset allocation and rebalancing tools
+   - Gain/loss tracking with benchmarking
+
+4. **Retirement Module** - Plan for a comfortable retirement
+   - Pension scheme management
+   - Retirement income projections
+   - Annual Allowance tracking with taper
+   - Monte Carlo simulations
+
+5. **IHT Planning Module** - Minimize inheritance tax liability
+   - IHT calculator with scenario comparison
+   - Gift tracking (7-year rule with taper relief)
+   - Trust management
+   - Estate planning strategies
+
+Each module has:
+- **Dashboard** - Overview with key metrics and status
+- **Management** - CRUD operations for module products
+- **Analytics** - Detailed insights and charts
+- **Specialized Tools** - Module-specific calculators and features
 
 ### UK Inheritance Tax Calculator (Complete)
 - **Real-time IHT calculations** with 2024/25 UK tax rates
@@ -136,37 +174,64 @@ npm start
 ## 📍 Application Routes
 
 ### Main Routes
-- `/dashboard` - Narrative storytelling dashboard with financial metrics
+- `/dashboard` - Goal-based modules dashboard with narrative storytelling
 - `/login` - User login
 - `/register` - User registration
 - `/settings` - User preferences, theme, and account management
-
-### IHT Calculator
-- `/iht-calculator` - Basic IHT Calculator
-- `/iht-calculator-enhanced` - Enhanced IHT calculator with advanced features
-- `/iht-calculator-complete` - Complete IHT suite with all Phase 2 tools
-- `/iht-compliance` - IHT400 preparation and compliance dashboard
-
-### Financial Planning
-- `/financial-statements` - Balance Sheet, P&L, Cash Flow
-- `/retirement-planning` - General retirement planning
-- `/retirement-planning-uk` - UK pension planning (AA/taper/MPAA)
-- `/portfolio-analytics` - Portfolio analysis and insights
-- `/portfolio-rebalancing` - Portfolio rebalancing tools
-- `/financial-projections` - Multi-year financial projections
-- `/tax-optimization` - Tax optimization strategies
-
-### Products & Accounts
-- `/products` - Product overview
-- `/products/pensions` - Pension management
-- `/products/investments` - Investment tracking
-- `/products/protection` - Protection products
-- `/bank-accounts` - Bank account management
-
-### Advanced Features
-- `/chat` - AI-powered financial assistant
-- `/monte-carlo` - Monte Carlo simulations
 - `/learning-centre` - In-app documentation and tutorials
+
+### Goal-Based Module Routes (v2.0) 🆕
+
+#### Protection Module
+- `/modules/protection/dashboard` - Protection overview and status
+- `/modules/protection/portfolio` - Manage protection policies
+- `/modules/protection/analytics` - Coverage analytics
+- `/modules/protection/needs-analysis` - Calculate coverage needs
+
+#### Savings Module
+- `/modules/savings/dashboard` - Savings overview and emergency fund status
+- `/modules/savings/accounts` - Manage savings accounts
+- `/modules/savings/goals` - Set and track savings goals
+- `/modules/savings/analytics` - Savings trends and analytics
+
+#### Investment Module
+- `/modules/investment/dashboard` - Investment portfolio overview
+- `/modules/investment/portfolio` - Manage investments
+- `/modules/investment/analytics` - Performance analytics
+- `/modules/investment/rebalancing` - Portfolio rebalancing tool
+
+#### Retirement Module
+- `/modules/retirement/dashboard` - Retirement readiness overview
+- `/modules/retirement/pensions` - Manage pension schemes
+- `/modules/retirement/projections` - Retirement income projections
+- `/modules/retirement/monte-carlo` - Monte Carlo simulations
+
+#### IHT Planning Module
+- `/modules/iht/dashboard` - IHT planning overview
+- `/modules/iht/calculator` - IHT calculator with scenarios
+- `/modules/iht/gifts` - Gift tracking (7-year rule)
+- `/modules/iht/trusts` - Trust management
+
+### Legacy Routes (Deprecated - Will Redirect) ⚠️
+- `/iht-calculator` → redirects to `/modules/iht/calculator`
+- `/iht-calculator-enhanced` → redirects to `/modules/iht/dashboard`
+- `/iht-calculator-complete` → redirects to `/modules/iht/dashboard`
+- `/iht-compliance` - IHT400 compliance (unchanged)
+- `/retirement-planning-uk` - UK pension features (unchanged)
+- `/financial-statements` - Balance Sheet, P&L, Cash Flow (unchanged)
+- `/financial-projections` - Multi-year projections (unchanged)
+- `/tax-optimization` - Tax strategies (unchanged)
+- `/products` → Use module-specific routes instead
+- `/pensions` → redirects to `/modules/retirement/pensions`
+- `/investments` → redirects to `/modules/investment/portfolio`
+- `/protection` → redirects to `/modules/protection/portfolio`
+- `/bank-accounts` → redirects to `/modules/savings/accounts`
+- `/portfolio-analytics` → redirects to `/modules/investment/analytics`
+- `/portfolio-rebalancing` → redirects to `/modules/investment/rebalancing`
+- `/monte-carlo` → redirects to `/modules/retirement/monte-carlo`
+
+### Other Features
+- `/chat` - AI-powered financial assistant
 
 ## 🛠️ Tech Stack
 
@@ -265,13 +330,19 @@ lsof -i :8000 | grep LISTEN | awk '{print $2}' | xargs kill -9
 finPlanFull/
 ├── backend/              # FastAPI backend
 │   ├── app/
-│   │   ├── api/         # API endpoints (14 routers)
+│   │   ├── api/         # API endpoints
 │   │   │   ├── auth/           # Authentication
-│   │   │   ├── iht/            # IHT calculations
+│   │   │   ├── modules/        # 🆕 Goal-based module APIs
+│   │   │   │   ├── protection/ # Protection module API
+│   │   │   │   ├── savings/    # Savings module API
+│   │   │   │   ├── investment/ # Investment module API
+│   │   │   │   ├── retirement/ # Retirement module API
+│   │   │   │   └── iht/        # IHT Planning module API
+│   │   │   ├── iht/            # ⚠️ Legacy IHT API (deprecated)
 │   │   │   ├── pension/        # UK pension (3 routers)
 │   │   │   ├── banking/        # Bank accounts
 │   │   │   ├── financial_statements/ # Financial data
-│   │   │   ├── products/       # Product management
+│   │   │   ├── products/       # ⚠️ Legacy product API (deprecated)
 │   │   │   ├── chat.py         # AI chat
 │   │   │   ├── docs.py         # Learning Centre API
 │   │   │   ├── export.py       # PDF/Excel export
@@ -279,40 +350,57 @@ finPlanFull/
 │   │   │   ├── projections.py  # Financial projections
 │   │   │   ├── tax_optimization.py
 │   │   │   └── rebalancing.py
-│   │   ├── models/      # SQLAlchemy models (10 models)
+│   │   ├── models/      # SQLAlchemy models (10+ models)
 │   │   ├── core/        # Configuration & security
 │   │   ├── db/          # Database initialization
 │   │   └── utils/       # Utility functions
-│   ├── tests/           # Test suites (9 files, 106+ tests)
+│   ├── tests/           # Test suites (10+ files, 189+ tests)
+│   │   ├── test_modules_protection.py  # 18 tests
+│   │   ├── test_modules_savings.py     # 17 tests
+│   │   ├── test_modules_investment.py  # 13 tests
+│   │   ├── test_modules_retirement.py  # 14 tests
+│   │   ├── test_modules_iht.py         # 21 tests
+│   │   ├── test_iht_enhanced.py        # 61 IHT tests
+│   │   ├── test_docs_api.py            # 34 docs tests
+│   │   └── test_pension.py             # 12 pension tests
 │   └── seed_data.py     # Database seeding
 ├── frontend/            # React 19 + TypeScript
 │   └── src/
 │       ├── components/  # React components
 │       │   ├── common/       # 11 reusable components
+│       │   ├── modules/      # 🆕 Goal-based module components
 │       │   ├── docs/         # 5 Learning Centre components
 │       │   ├── iht/          # 12 IHT components
 │       │   ├── pension/      # 6 pension components
 │       │   └── layout/       # Header, navigation
-│       ├── pages/       # 22 page components
+│       ├── pages/       # 45+ page components
+│       │   ├── modules/      # 🆕 Module pages (20 pages)
+│       │   │   ├── protection/   # 4 Protection pages
+│       │   │   ├── savings/      # 4 Savings pages
+│       │   │   ├── investment/   # 4 Investment pages
+│       │   │   ├── retirement/   # 4 Retirement pages
+│       │   │   └── iht/          # 4 IHT Planning pages
+│       │   └── ...          # Other pages (dashboard, settings, etc.)
 │       ├── services/    # API client services (3 files)
 │       ├── styles/      # Theme system (light/dark)
 │       ├── types/       # TypeScript definitions
 │       └── context/     # React contexts (theme, auth)
-├── docs/                # 9 comprehensive documentation files
+├── docs/                # 10 comprehensive documentation files
 │   ├── IHT_USER_GUIDE.md
 │   ├── IHT_CALCULATION_METHODOLOGY.md
 │   ├── IHT_COMPLIANCE_CHECKLIST.md
-│   ├── USER_GUIDE.md
-│   ├── API_DOCUMENTATION.md
+│   ├── USER_GUIDE.md                    # 🆕 v2.0 with modules
+│   ├── API_DOCUMENTATION.md             # 🆕 v2.0 with modules
+│   ├── MIGRATION_GUIDE.md               # 🆕 v1.x → v2.0 guide
 │   ├── ARCHITECTURE.md
 │   ├── DEVELOPER_DOCUMENTATION.md
-│   ├── VIDEO_TUTORIALS.md
+│   ├── VIDEO_TUTORIALS.md               # 🆕 v2.0 with modules
 │   └── README.md
 ├── .github/workflows/   # CI/CD with GitHub Actions
 ├── docker-compose.yml   # Docker configuration
-├── CLAUDE.md           # Developer guide (comprehensive)
+├── CLAUDE.md           # Developer guide (v2.0 updated)
 ├── STYLEGUIDE.md       # Design system documentation
-├── README.md           # This file
+├── README.md           # This file (v2.0)
 └── start.sh            # Quick start script
 ```
 
@@ -329,10 +417,14 @@ For developers working on this project, see [CLAUDE.md](./CLAUDE.md) for:
 ## 🚧 Roadmap
 
 ### Completed ✅
+- [x] **Goal-Based Modules (v2.0)** - 5 life goal modules with 20 pages
+- [x] **Module API Layer** - Consistent endpoints across all modules
+- [x] **Module Testing Suite** - 83 comprehensive API tests
+- [x] **Migration Documentation** - Complete v1.x → v2.0 guide
 - [x] UK IHT Calculator Phase 2
 - [x] UK Pension Planning System
 - [x] Monte Carlo Simulations
-- [x] Comprehensive Testing Suite (61 IHT tests, 34 docs tests, 11 frontend tests)
+- [x] Comprehensive Testing Suite (189+ total tests: 83 module + 61 IHT + 34 docs + 11 frontend)
 - [x] Learning Centre with Documentation Browser
 - [x] Tax Optimization Module
 - [x] Portfolio Rebalancing Tools
@@ -341,23 +433,35 @@ For developers working on this project, see [CLAUDE.md](./CLAUDE.md) for:
 - [x] Settings & Preferences Hub
 
 ### In Progress 🚧
-- [ ] Frontend integration refinements
-- [ ] Documentation polish and updates
+- [ ] Frontend Component Tests (Module components)
+- [ ] E2E Testing Framework (Playwright/Cypress)
+- [ ] Legacy route deprecation cleanup (v2.1)
 
 ### Planned 📋
 - [ ] Multi-currency support
-- [ ] Advanced AI-powered tax optimization
+- [ ] Advanced AI-powered insights per module
 - [ ] Open Banking integration
-- [ ] Mobile app (React Native)
+- [ ] Mobile app (React Native) with module structure
 - [ ] Multi-language support (i18n)
 - [ ] Real-time market data integration
+- [ ] Goal progress tracking and notifications
 
 ## 📅 Latest Updates
 
+### 2025-10-01 - Goal-Based Modules Launch (v2.0) 🆕
+- **5 Life Goal Modules**: Protection, Savings, Investment, Retirement, IHT Planning
+- **20 New Module Pages**: 4 pages per module (Dashboard, Management, Analytics, Tools)
+- **Module API Layer**: Consistent endpoints across all 5 modules
+- **83 New API Tests**: Comprehensive module coverage (Protection: 18, Savings: 17, Investment: 13, Retirement: 14, IHT: 21)
+- **Migration Guide**: Complete v1.x → v2.0 transition documentation
+- **Updated Documentation**: USER_GUIDE.md, API_DOCUMENTATION.md, VIDEO_TUTORIALS.md
+- **Narrative Storytelling**: Dashboard redesigned with conversational approach
+- **Automatic Redirects**: Legacy routes redirect to new module structure
+
 ### 2025-09-30 - Learning Centre Launch ✅
-- In-app documentation browser with 9 comprehensive guides
+- In-app documentation browser with 10 comprehensive guides
 - Full-text search across all documentation (<100ms response time)
-- 6 video tutorial series (27 videos, ~160 minutes of content)
+- 8 video tutorial series (34 videos, ~180 minutes of content)
 - 34 backend API tests + 11 frontend component tests (100% pass rate)
 - Context-aware help system with keyboard shortcuts
 - Category-based organization with 9 documentation categories
@@ -374,12 +478,6 @@ For developers working on this project, see [CLAUDE.md](./CLAUDE.md) for:
 - Complete UK tax law coverage (2024/25 tax year)
 - All edge cases: GWR/POAT, Quick Succession Relief, foreign assets
 - Full compliance testing: Form generation, payment calculations
-
-### 2025-09-29 - IHT Calculator Phase 2 Complete ✅
-- 7 new advanced IHT components
-- 2 new pages (Complete Suite + Compliance Dashboard)
-- Enhanced visualizations and optimization tools
-- Full TypeScript support
 
 ### 2025-09-29 - UK Pension Planning Complete ✅
 - Annual Allowance with taper calculations
