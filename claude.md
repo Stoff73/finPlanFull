@@ -24,9 +24,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 backend/app/
 ├── api/              # API route handlers
 │   ├── auth/         # Authentication (login, register, token)
-│   ├── iht/          # IHT calculations and profile management
+│   ├── modules/      # **NEW: Goal-based module APIs**
+│   │   ├── protection/   # Protection module (policies, analytics, needs analysis)
+│   │   ├── savings/      # Savings module (accounts, goals, analytics)
+│   │   ├── investment/   # Investment module (portfolio, analytics, rebalancing)
+│   │   ├── retirement/   # Retirement module (pensions, projections, monte-carlo)
+│   │   └── iht/          # IHT Planning module (calculator, gifts, trusts)
+│   ├── iht/          # **DEPRECATED**: Use /api/modules/iht instead
 │   ├── financial_statements/  # Balance sheet, P&L, cash flow
-│   ├── products/     # Pensions, investments, protection
+│   ├── products/     # **DEPRECATED**: Use module-specific endpoints
 │   ├── pension/      # UK pension-specific (AA, taper, MPAA, optimization, schemes)
 │   ├── banking/      # Bank accounts and transactions
 │   ├── chat.py       # AI chat integration
@@ -36,36 +42,76 @@ backend/app/
 │   ├── tax_optimization.py # Tax planning and optimization
 │   ├── rebalancing.py # Portfolio rebalancing
 │   ├── docs.py       # Learning Centre documentation API
-│   └── iht_refactored.py # Enhanced IHT calculations
-├── models/           # SQLAlchemy models (user, iht, financial, product, chat, pension, docs_metadata)
+│   ├── iht_refactored.py # Enhanced IHT calculations
+│   └── dashboard.py  # Main dashboard aggregation
+├── models/           # SQLAlchemy models (user, iht, financial, product, chat, pension, docs_metadata, module_goal, module_metric)
 ├── core/             # Configuration, security, dependencies
 └── db/               # Database initialization
 ```
 
+**Goal-Based Modules** (NEW in v2.0):
+- **Protection**: `/api/modules/protection` - Insurance/protection planning
+- **Savings**: `/api/modules/savings` - Cash savings and emergency fund
+- **Investment**: `/api/modules/investment` - Investment portfolio management
+- **Retirement**: `/api/modules/retirement` - Pension planning
+- **IHT Planning**: `/api/modules/iht` - Inheritance tax planning
+
+Each module has consistent endpoints:
+- `/dashboard` - Comprehensive dashboard data
+- `/summary` - Quick summary for main dashboard card
+- CRUD operations for module-specific entities
+- `/analytics` - Module-specific analytics
+
 ### Frontend Component Hierarchy
 ```
 frontend/src/
-├── pages/            # Full page components with data fetching (22 pages)
-│   ├── Dashboard.tsx                # Narrative storytelling dashboard
+├── pages/            # Full page components with data fetching (27+ pages)
+│   ├── Dashboard.tsx                # **NEW**: Narrative storytelling main dashboard
 │   ├── Settings.tsx                 # User preferences & account settings
 │   ├── LearningCentre.tsx          # Documentation browser
-│   ├── IHTCalculator.tsx           # Basic IHT calculator
-│   ├── IHTCalculatorEnhanced.tsx   # Enhanced IHT features
-│   ├── IHTCalculatorComplete.tsx   # Complete IHT suite
+│   ├── modules/                     # **NEW**: Goal-based module pages
+│   │   ├── protection/
+│   │   │   ├── ProtectionDashboard.tsx       # Protection module dashboard
+│   │   │   ├── ProtectionPortfolio.tsx       # Manage policies
+│   │   │   ├── ProtectionAnalytics.tsx       # Coverage analytics
+│   │   │   └── ProtectionNeedsAnalysis.tsx   # Needs calculator
+│   │   ├── savings/
+│   │   │   ├── SavingsDashboard.tsx          # Savings module dashboard
+│   │   │   ├── SavingsAccounts.tsx           # Manage accounts
+│   │   │   ├── SavingsGoals.tsx              # Track goals
+│   │   │   └── SavingsAnalytics.tsx          # Savings analytics
+│   │   ├── investment/
+│   │   │   ├── InvestmentDashboard.tsx       # Investment module dashboard
+│   │   │   ├── InvestmentPortfolio.tsx       # Manage investments
+│   │   │   ├── InvestmentAnalytics.tsx       # Performance analytics
+│   │   │   └── InvestmentRebalancing.tsx     # Rebalancing tool
+│   │   ├── retirement/
+│   │   │   ├── RetirementDashboard.tsx       # Retirement module dashboard
+│   │   │   ├── RetirementPensions.tsx        # Manage pensions
+│   │   │   ├── RetirementProjections.tsx     # Retirement projections
+│   │   │   └── RetirementMonteCarlo.tsx      # Monte Carlo simulation
+│   │   └── iht/
+│   │       ├── IHTDashboard.tsx              # IHT module dashboard
+│   │       ├── IHTCalculator.tsx             # IHT calculator
+│   │       ├── IHTGifts.tsx                  # Manage gifts
+│   │       └── IHTTrusts.tsx                 # Manage trusts
+│   ├── IHTCalculator.tsx           # **DEPRECATED**: Use /modules/iht instead
+│   ├── IHTCalculatorEnhanced.tsx   # **DEPRECATED**: Legacy IHT page
+│   ├── IHTCalculatorComplete.tsx   # **DEPRECATED**: Legacy IHT page
 │   ├── IHTCompliance.tsx           # IHT400 compliance
-│   ├── RetirementPlanningUK.tsx    # UK pension planning
-│   ├── RetirementPlanning.tsx      # General retirement planning
+│   ├── RetirementPlanningUK.tsx    # UK pension planning (advanced features)
+│   ├── RetirementPlanning.tsx      # **DEPRECATED**: Use /modules/retirement
 │   ├── FinancialStatements.tsx     # Balance sheet, P&L, cash flow
 │   ├── FinancialProjections.tsx    # Multi-year projections
 │   ├── TaxOptimization.tsx         # Tax planning strategies
-│   ├── PortfolioAnalytics.tsx      # Portfolio analysis
-│   ├── PortfolioRebalancing.tsx    # Rebalancing tools
-│   ├── ProductsOverview.tsx        # Product summary
-│   ├── Pensions.tsx                # Pension management
-│   ├── Investments.tsx             # Investment tracking
-│   ├── Protection.tsx              # Protection products
+│   ├── PortfolioAnalytics.tsx      # **DEPRECATED**: Use /modules/investment/analytics
+│   ├── PortfolioRebalancing.tsx    # **DEPRECATED**: Use /modules/investment/rebalancing
+│   ├── ProductsOverview.tsx        # **DEPRECATED**: Product summary
+│   ├── Pensions.tsx                # **DEPRECATED**: Use /modules/retirement/pensions
+│   ├── Investments.tsx             # **DEPRECATED**: Use /modules/investment/portfolio
+│   ├── Protection.tsx              # **DEPRECATED**: Use /modules/protection/portfolio
 │   ├── BankAccounts.tsx            # Bank account management
-│   ├── MonteCarloSimulation.tsx    # Monte Carlo analysis
+│   ├── MonteCarloSimulation.tsx    # **DEPRECATED**: Use /modules/retirement/monte-carlo
 │   ├── Chat.tsx                    # AI assistant
 │   └── Login.tsx                   # Authentication
 ├── components/
@@ -260,7 +306,68 @@ docker-compose up --build
 - `POST /register` - Register new user
 - `GET /me` - Get current user (requires auth)
 
-### IHT Calculator (`/api/iht` & `/api/iht-enhanced`)
+### **Goal-Based Modules (NEW)** (`/api/modules/`)
+
+All modules follow consistent endpoint patterns:
+
+#### Protection Module (`/api/modules/protection`)
+- `GET /dashboard` - Comprehensive protection dashboard
+- `GET /summary` - Quick summary for main dashboard
+- `GET /products` - List all protection products
+- `POST /products` - Create protection product
+- `GET /products/{id}` - Get specific product
+- `PUT /products/{id}` - Update product
+- `DELETE /products/{id}` - Archive product
+- `GET /analytics` - Coverage analytics and recommendations
+- `POST /needs-analysis` - Calculate protection needs
+
+#### Savings Module (`/api/modules/savings`)
+- `GET /dashboard` - Savings dashboard with emergency fund status
+- `GET /summary` - Quick summary for main dashboard
+- `GET /accounts` - List all savings accounts
+- `POST /accounts` - Create savings account
+- `GET /accounts/{id}` - Get specific account
+- `PUT /accounts/{id}` - Update account
+- `DELETE /accounts/{id}` - Archive account
+- `GET /analytics` - Savings analytics and trends
+- `GET /goals` - List savings goals
+- `POST /goals` - Create savings goal
+
+#### Investment Module (`/api/modules/investment`)
+- `GET /dashboard` - Investment dashboard with portfolio overview
+- `GET /summary` - Quick summary for main dashboard
+- `GET /portfolio` - List all investments
+- `POST /portfolio` - Add investment
+- `GET /portfolio/{id}` - Get specific investment
+- `PUT /portfolio/{id}` - Update investment
+- `DELETE /portfolio/{id}` - Archive investment
+- `GET /analytics` - Performance analytics and risk metrics
+- `GET /rebalancing` - Portfolio rebalancing recommendations
+
+#### Retirement Module (`/api/modules/retirement`)
+- `GET /dashboard` - Retirement dashboard with pension overview
+- `GET /summary` - Quick summary for main dashboard
+- `GET /pensions` - List all pensions
+- `POST /pensions` - Add pension
+- `GET /pensions/{id}` - Get specific pension
+- `PUT /pensions/{id}` - Update pension
+- `DELETE /pensions/{id}` - Archive pension
+- `GET /projections?retirement_age=65` - Retirement projections
+- `GET /monte-carlo?simulations=1000` - Monte Carlo simulation
+
+#### IHT Planning Module (`/api/modules/iht`)
+- `GET /dashboard` - IHT planning dashboard
+- `GET /summary` - Quick summary for main dashboard
+- `POST /calculator` - Calculate IHT liability
+- `GET /gifts` - List all gifts
+- `POST /gifts` - Record gift
+- `GET /gifts/{id}` - Get specific gift
+- `PUT /gifts/{id}` - Update gift
+- `DELETE /gifts/{id}` - Delete gift
+- `GET /trusts` - List all trusts
+- `POST /trusts` - Create trust
+
+### IHT Calculator (DEPRECATED - Use `/api/modules/iht` instead)
 - `POST /calculate` - Calculate IHT with assets, gifts, trusts
 - `GET /taper-relief/{gift_date}?amount={amount}` - Taper relief calculation
 - `POST /save-profile` - Save IHT profile
