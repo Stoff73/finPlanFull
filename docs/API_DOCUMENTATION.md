@@ -12,20 +12,26 @@ Alternative Docs: http://localhost:8000/redoc (ReDoc)
 ## Table of Contents
 
 1. [Authentication](#authentication)
-2. [IHT Calculator](#iht-calculator)
-3. [IHT Enhanced](#iht-enhanced)
-4. [Financial Statements](#financial-statements)
-5. [Products](#products)
-6. [UK Pensions](#uk-pensions)
-7. [Bank Accounts](#bank-accounts)
-8. [AI Chat](#ai-chat)
-9. [Simulations](#simulations)
-10. [Financial Projections](#financial-projections)
-11. [Tax Optimization](#tax-optimization)
-12. [Portfolio Rebalancing](#portfolio-rebalancing)
-13. [Export](#export)
-14. [Error Handling](#error-handling)
-15. [Rate Limits](#rate-limits)
+2. **[Goal-Based Modules (NEW)](#goal-based-modules)**
+   - [Protection Module](#protection-module)
+   - [Savings Module](#savings-module)
+   - [Investment Module](#investment-module)
+   - [Retirement Module](#retirement-module)
+   - [IHT Planning Module](#iht-planning-module)
+3. [IHT Calculator](#iht-calculator)
+4. [IHT Enhanced](#iht-enhanced)
+5. [Financial Statements](#financial-statements)
+6. [Products](#products)
+7. [UK Pensions](#uk-pensions)
+8. [Bank Accounts](#bank-accounts)
+9. [AI Chat](#ai-chat)
+10. [Simulations](#simulations)
+11. [Financial Projections](#financial-projections)
+12. [Tax Optimization](#tax-optimization)
+13. [Portfolio Rebalancing](#portfolio-rebalancing)
+14. [Export](#export)
+15. [Error Handling](#error-handling)
+16. [Rate Limits](#rate-limits)
 
 ---
 
@@ -105,6 +111,672 @@ Authorization: Bearer <access_token>
   "risk_tolerance": "moderate"
 }
 ```
+
+---
+
+## Goal-Based Modules
+
+**NEW in Version 2.0**: The application now uses a goal-based module structure that organizes financial planning around key life goals. Each module has consistent endpoints for dashboard views, summaries, CRUD operations, and analytics.
+
+### Module Structure
+
+All modules follow this consistent pattern:
+
+- `GET /api/modules/{module}/dashboard` - Comprehensive dashboard data
+- `GET /api/modules/{module}/summary` - Quick summary for main dashboard card
+- CRUD operations for module-specific entities
+- Analytics and insights endpoints
+
+### Common Response Fields
+
+All module endpoints include:
+- **Status indicators**: `adequate`, `attention_needed`, `insufficient`, `excellent`, etc.
+- **Narrative messages**: User-friendly explanations following STYLEGUIDE.md
+- **Timestamps**: ISO 8601 format for all dates
+
+---
+
+## Protection Module
+
+Base URL: `/api/modules/protection`
+
+### GET /api/modules/protection/dashboard
+
+**Description**: Get comprehensive protection module dashboard with all policies, coverage analysis, and recommendations.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_coverage": 750000,
+  "active_policies": 2,
+  "total_monthly_premium": 125.0,
+  "coverage_by_type": {
+    "life_insurance": {
+      "count": 1,
+      "total_coverage": 500000,
+      "total_premium": 50.0
+    },
+    "critical_illness": {
+      "count": 1,
+      "total_coverage": 250000,
+      "total_premium": 75.0
+    }
+  },
+  "coverage_adequacy": "adequate",
+  "coverage_gap": 0,
+  "policies": [
+    {
+      "id": 1,
+      "name": "Term Life Insurance",
+      "product_type": "life_insurance",
+      "provider": "Example Life Co",
+      "value": 500000,
+      "monthly_premium": 50.0,
+      "start_date": "2024-01-01",
+      "status": "active"
+    }
+  ]
+}
+```
+
+### GET /api/modules/protection/summary
+
+**Description**: Quick protection summary for main dashboard card.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_coverage": 750000,
+  "policy_count": 2,
+  "monthly_premium": 125.0,
+  "status": "adequate",
+  "coverage_gap": 0,
+  "message": "You have £750,000 in total coverage across your policies."
+}
+```
+
+### GET /api/modules/protection/products
+
+**Description**: List all protection products.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Query Parameters**:
+- `skip` (optional): Pagination offset (default: 0)
+- `limit` (optional): Maximum results (default: 100)
+
+**Response** (200 OK):
+```json
+{
+  "total": 2,
+  "products": [
+    {
+      "id": 1,
+      "name": "Term Life Insurance",
+      "product_type": "life_insurance",
+      "provider": "Example Life Co",
+      "value": 500000,
+      "monthly_premium": 50.0,
+      "start_date": "2024-01-01",
+      "end_date": null,
+      "status": "active",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+### POST /api/modules/protection/products
+
+**Description**: Create a new protection product.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Request Body**:
+```json
+{
+  "name": "Life Insurance Policy",
+  "product_type": "life_insurance",
+  "provider": "Insurance Company",
+  "value": 500000,
+  "monthly_premium": 50.0,
+  "start_date": "2024-01-01",
+  "beneficiaries": "Spouse, Children",
+  "notes": "Term life insurance policy"
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "id": 1,
+  "name": "Life Insurance Policy",
+  "product_type": "life_insurance",
+  "value": 500000,
+  "message": "Protection product created successfully"
+}
+```
+
+### GET /api/modules/protection/products/{product_id}
+
+**Description**: Get specific protection product by ID.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "id": 1,
+  "name": "Life Insurance Policy",
+  "product_type": "life_insurance",
+  "provider": "Insurance Company",
+  "value": 500000,
+  "monthly_premium": 50.0,
+  "beneficiaries": "Spouse, Children",
+  "notes": "Term life insurance policy",
+  "start_date": "2024-01-01",
+  "end_date": null,
+  "status": "active",
+  "created_at": "2024-01-01T00:00:00Z",
+  "updated_at": "2024-01-01T00:00:00Z"
+}
+```
+
+### PUT /api/modules/protection/products/{product_id}
+
+**Description**: Update a protection product (partial update supported).
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Request Body** (all fields optional):
+```json
+{
+  "name": "Updated Policy Name",
+  "value": 600000,
+  "monthly_premium": 55.0,
+  "status": "active"
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "id": 1,
+  "name": "Updated Policy Name",
+  "value": 600000,
+  "message": "Protection product updated successfully"
+}
+```
+
+### DELETE /api/modules/protection/products/{product_id}
+
+**Description**: Soft delete (archive) a protection product.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "message": "Protection product archived successfully",
+  "id": 1
+}
+```
+
+### GET /api/modules/protection/analytics
+
+**Description**: Get detailed protection analytics.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "coverage_analysis": {
+    "total_coverage": 750000,
+    "coverage_by_type": {...},
+    "largest_policy": {...},
+    "policy_count": 2
+  },
+  "premium_efficiency": {
+    "total_monthly_premium": 125.0,
+    "total_annual_premium": 1500.0,
+    "premium_per_100k_coverage": 16.67,
+    "most_expensive_policy": {...}
+  },
+  "coverage_trends": {
+    "monthly_data": [],
+    "trend": "stable"
+  },
+  "recommendations": [
+    {
+      "priority": "medium",
+      "category": "coverage",
+      "message": "Consider adding critical illness cover",
+      "action": "Review protection needs analysis"
+    }
+  ],
+  "last_updated": "2025-10-01T10:00:00Z"
+}
+```
+
+### POST /api/modules/protection/needs-analysis
+
+**Description**: Calculate recommended protection coverage based on financial situation.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Request Body**:
+```json
+{
+  "annual_income": 75000,
+  "dependents": 2,
+  "outstanding_debts": 200000,
+  "existing_savings": 50000,
+  "monthly_expenses": 3500,
+  "years_of_income_replacement": 10,
+  "education_fund_required": 100000,
+  "final_expenses": 10000,
+  "spouse_income": 40000
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "analysis": {
+    "income_replacement_needs": 525000,
+    "debt_coverage_needs": 200000,
+    "future_expenses_needs": 110000,
+    "emergency_fund_needs": 21000,
+    "total_needs": 856000,
+    "existing_savings": 50000,
+    "net_protection_needs": 806000
+  },
+  "existing_coverage": {
+    "total_coverage": 500000,
+    "policy_count": 1,
+    "coverage_by_type": {...}
+  },
+  "coverage_gap": {
+    "amount": 306000,
+    "percentage": 37.97,
+    "status": "insufficient"
+  },
+  "recommendations": [...],
+  "estimated_cost": {
+    "monthly_premium": 244.8,
+    "annual_premium": 2937.6,
+    "notes": "Premium estimates are approximate..."
+  }
+}
+```
+
+---
+
+## Savings Module
+
+Base URL: `/api/modules/savings`
+
+### GET /api/modules/savings/dashboard
+
+**Description**: Get comprehensive savings dashboard with emergency fund status.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_balance": 25000,
+  "account_count": 2,
+  "emergency_fund": {
+    "months_covered": 8.3,
+    "status": "excellent",
+    "target_months": 6,
+    "amount": 25000,
+    "target_amount": 18000
+  },
+  "savings_rate": 15,
+  "balance_by_type": {
+    "savings_account": {
+      "count": 1,
+      "total_balance": 15000,
+      "interest_rate": 2.5
+    },
+    "isa": {
+      "count": 1,
+      "total_balance": 10000,
+      "interest_rate": 3.0
+    }
+  },
+  "accounts": [...]
+}
+```
+
+### GET /api/modules/savings/summary
+
+**Description**: Quick savings summary for main dashboard.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_balance": 25000,
+  "account_count": 2,
+  "emergency_fund_months": 8.3,
+  "status": "excellent",
+  "message": "Excellent! You have 8.3 months of expenses saved - your emergency fund is strong."
+}
+```
+
+### Savings Accounts CRUD
+
+**Similar pattern to Protection Module**:
+- `GET /api/modules/savings/accounts` - List accounts
+- `POST /api/modules/savings/accounts` - Create account
+- `GET /api/modules/savings/accounts/{id}` - Get account
+- `PUT /api/modules/savings/accounts/{id}` - Update account
+- `DELETE /api/modules/savings/accounts/{id}` - Archive account
+
+### GET /api/modules/savings/analytics
+
+**Description**: Get savings analytics and trends.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response**: Balance trends, interest analysis, savings rate
+
+### Savings Goals
+
+**Endpoints**:
+- `GET /api/modules/savings/goals` - List savings goals
+- `POST /api/modules/savings/goals` - Create savings goal
+- `GET /api/modules/savings/goals/{id}` - Get goal
+- `PUT /api/modules/savings/goals/{id}` - Update goal
+- `DELETE /api/modules/savings/goals/{id}` - Delete goal
+
+---
+
+## Investment Module
+
+Base URL: `/api/modules/investment`
+
+### GET /api/modules/investment/dashboard
+
+**Description**: Get comprehensive investment dashboard.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_value": 40000,
+  "total_contributions": 32000,
+  "total_gain_loss": 8000,
+  "gain_loss_percentage": 25.0,
+  "account_count": 2,
+  "asset_allocation": [
+    {
+      "asset_class": "equities",
+      "value": 30000,
+      "percentage": 75.0,
+      "count": 2
+    }
+  ],
+  "holdings": [...]
+}
+```
+
+### GET /api/modules/investment/summary
+
+**Description**: Quick investment summary.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_value": 40000,
+  "gain_loss": 8000,
+  "gain_loss_percentage": 25.0,
+  "status": "growing",
+  "message": "Your investments are performing well with a 25% gain."
+}
+```
+
+### Investment Portfolio CRUD
+
+**Endpoints**:
+- `GET /api/modules/investment/portfolio` - List investments
+- `POST /api/modules/investment/portfolio` - Add investment
+- `GET /api/modules/investment/portfolio/{id}` - Get investment
+- `PUT /api/modules/investment/portfolio/{id}` - Update investment
+- `DELETE /api/modules/investment/portfolio/{id}` - Archive investment
+
+### GET /api/modules/investment/analytics
+
+**Description**: Get investment analytics including performance, risk metrics, diversification.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response**: Performance metrics, asset allocation, risk metrics, diversification score, income analysis, recommendations
+
+### GET /api/modules/investment/rebalancing
+
+**Description**: Get portfolio rebalancing analysis and recommendations.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "current_allocation": [...],
+  "target_allocation": [...],
+  "rebalancing_recommendations": [
+    {
+      "asset_class": "bonds",
+      "action": "buy",
+      "amount": 5000,
+      "reason": "Underweight by 10%"
+    }
+  ],
+  "last_rebalanced": "2024-06-01"
+}
+```
+
+---
+
+## Retirement Module
+
+Base URL: `/api/modules/retirement`
+
+### GET /api/modules/retirement/dashboard
+
+**Description**: Get comprehensive retirement dashboard.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_pension_value": 225000,
+  "pension_count": 2,
+  "projected_annual_income": 9000,
+  "retirement_age": 65,
+  "years_to_retirement": 25,
+  "retirement_readiness": "on_track",
+  "pensions": [...]
+}
+```
+
+### GET /api/modules/retirement/summary
+
+**Description**: Quick retirement summary.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "total_pension_value": 225000,
+  "pension_count": 2,
+  "projected_income": 9000,
+  "status": "on_track",
+  "message": "You're on track for a comfortable retirement with £9,000 annual income projected."
+}
+```
+
+### Retirement Pensions CRUD
+
+**Endpoints**:
+- `GET /api/modules/retirement/pensions` - List pensions
+- `POST /api/modules/retirement/pensions` - Add pension
+- `GET /api/modules/retirement/pensions/{id}` - Get pension
+- `PUT /api/modules/retirement/pensions/{id}` - Update pension
+- `DELETE /api/modules/retirement/pensions/{id}` - Archive pension
+
+### GET /api/modules/retirement/projections
+
+**Description**: Get retirement projections for different retirement ages.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Query Parameters**:
+- `retirement_age` (required): Target retirement age (e.g., 65)
+
+**Response** (200 OK):
+```json
+{
+  "retirement_age": 65,
+  "years_to_retirement": 25,
+  "projected_pension_value": 450000,
+  "projected_annual_income": 18000,
+  "annual_drawdown": 4.0
+}
+```
+
+### GET /api/modules/retirement/monte-carlo
+
+**Description**: Run Monte Carlo simulation for retirement outcomes.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Query Parameters**:
+- `simulations` (optional): Number of simulations (default: 1000)
+- `retirement_age` (optional): Target retirement age (default: 65)
+
+**Response** (200 OK):
+```json
+{
+  "simulations": 1000,
+  "success_rate": 85.5,
+  "percentiles": {
+    "p10": 300000,
+    "p50": 450000,
+    "p90": 650000
+  },
+  "median_outcome": 450000
+}
+```
+
+---
+
+## IHT Planning Module
+
+Base URL: `/api/modules/iht`
+
+### GET /api/modules/iht/dashboard
+
+**Description**: Get comprehensive IHT planning dashboard.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "estate_value": 600000,
+  "iht_liability": 70000,
+  "nil_rate_band_available": 325000,
+  "residence_nil_rate_band": 175000,
+  "gifts": [...],
+  "trusts": [...]
+}
+```
+
+### GET /api/modules/iht/summary
+
+**Description**: Quick IHT summary for main dashboard.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Response** (200 OK):
+```json
+{
+  "estate_value": 600000,
+  "iht_liability": 70000,
+  "status": "attention_needed",
+  "message": "Based on your £600k estate, you'd owe £70,000 in IHT. Consider IHT planning strategies."
+}
+```
+
+### POST /api/modules/iht/calculator
+
+**Description**: Calculate IHT liability.
+
+**Headers**: `Authorization: Bearer <token>`
+
+**Request Body**:
+```json
+{
+  "assets": {
+    "property": 500000,
+    "savings": 100000,
+    "investments": 50000,
+    "pensions": 150000
+  },
+  "liabilities": {
+    "mortgage": 200000,
+    "other_debts": 0
+  },
+  "gifts_last_7_years": 50000,
+  "has_main_residence": true,
+  "leaving_to_direct_descendants": true
+}
+```
+
+**Response** (200 OK):
+```json
+{
+  "estate_value": 600000,
+  "taxable_estate": 100000,
+  "iht_liability": 40000,
+  "nil_rate_band_used": 325000,
+  "residence_nil_rate_band": 175000,
+  "effective_rate": 6.67
+}
+```
+
+### IHT Gifts CRUD
+
+**Endpoints**:
+- `GET /api/modules/iht/gifts` - List gifts
+- `POST /api/modules/iht/gifts` - Record gift
+- `GET /api/modules/iht/gifts/{id}` - Get gift
+- `PUT /api/modules/iht/gifts/{id}` - Update gift
+- `DELETE /api/modules/iht/gifts/{id}` - Delete gift
+
+### IHT Trusts CRUD
+
+**Endpoints**:
+- `GET /api/modules/iht/trusts` - List trusts
+- `POST /api/modules/iht/trusts` - Create trust
+- `GET /api/modules/iht/trusts/{id}` - Get trust
+- `PUT /api/modules/iht/trusts/{id}` - Update trust
+- `DELETE /api/modules/iht/trusts/{id}` - Delete trust
 
 ---
 
