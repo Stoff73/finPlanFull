@@ -10,16 +10,22 @@ Version 1.0.0 | Last Updated: 2025-09-30
 
 1. [Getting Started](#getting-started)
 2. [Dashboard Overview](#dashboard-overview)
-3. [IHT Calculator](#iht-calculator)
-4. [Pension Planning](#pension-planning)
-5. [Financial Statements](#financial-statements)
-6. [Portfolio Management](#portfolio-management)
-7. [Tax Optimization](#tax-optimization)
-8. [Financial Projections](#financial-projections)
-9. [AI Chat Assistant](#ai-chat-assistant)
-10. [Export & Reports](#export--reports)
-11. [Tips & Best Practices](#tips--best-practices)
-12. [Troubleshooting](#troubleshooting)
+3. **[Goal-Based Modules (NEW)](#goal-based-modules)**
+   - [Protection Module](#protection-module)
+   - [Savings Module](#savings-module)
+   - [Investment Module](#investment-module)
+   - [Retirement Module](#retirement-module)
+   - [IHT Planning Module](#iht-planning-module)
+4. [IHT Calculator](#iht-calculator)
+5. [Pension Planning](#pension-planning)
+6. [Financial Statements](#financial-statements)
+7. [Portfolio Management](#portfolio-management)
+8. [Tax Optimization](#tax-optimization)
+9. [Financial Projections](#financial-projections)
+10. [AI Chat Assistant](#ai-chat-assistant)
+11. [Export & Reports](#export--reports)
+12. [Tips & Best Practices](#tips--best-practices)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -104,6 +110,658 @@ The dashboard is your financial command center, showing real-time insights and q
 - Annual Allowance usage
 - Tax relief claimed this year
 - Retirement readiness score
+
+---
+
+## Goal-Based Modules
+
+**NEW in Version 2.0**: Your financial planning is now organized around five key life goals. Each module provides a focused dashboard, actionable insights, and easy management of your financial products.
+
+### Why Goal-Based Modules?
+
+Traditional financial planning can feel overwhelming. Goal-based modules simplify your financial life by organizing everything around what matters most:
+
+- **Protection**: Safeguarding your family and income
+- **Savings**: Building emergency funds and short-term goals
+- **Investment**: Growing wealth for the long term
+- **Retirement**: Planning for financial independence
+- **IHT Planning**: Protecting your legacy and reducing tax
+
+### Accessing Modules
+
+From the main dashboard, you'll see five module cards showing your status in each area. Click any card to open that module's dedicated dashboard.
+
+**Main Dashboard → Module Dashboard → Detailed Views**
+
+---
+
+## Protection Module
+
+**Goal**: Ensure your family is financially protected if something happens to you.
+
+### What is Protection?
+
+Protection (or insurance) replaces lost income, covers debts, or provides a lump sum to your family. The Protection Module helps you:
+
+- Track all your life insurance, critical illness, and income protection policies
+- Calculate how much coverage you actually need
+- Identify gaps in your protection
+- Optimize premium costs
+
+### Getting Started
+
+1. **Navigate to Protection Module**
+   - From main dashboard, click **"Protection"** card
+   - Or use navigation: **Modules > Protection**
+
+2. **Add Your First Policy**
+   - Click **"Add Policy"**
+   - Select policy type:
+     - **Life Insurance**: Pays out on death
+     - **Critical Illness**: Pays out on serious illness diagnosis
+     - **Income Protection**: Replaces salary if unable to work
+     - **Family Income Benefit**: Regular payments to family
+   - Enter policy details:
+     - Policy name (e.g., "Term Life Insurance")
+     - Provider (e.g., "Example Life Co")
+     - Coverage amount (e.g., £500,000)
+     - Monthly premium (e.g., £50)
+     - Start date and end date (if term policy)
+     - Beneficiaries
+   - Click **"Save Policy"**
+
+3. **Review Your Coverage**
+   - **Total Coverage**: Sum of all your policies
+   - **Monthly Premiums**: What you're paying across all policies
+   - **Coverage by Type**: Breakdown (life, critical illness, income)
+   - **Coverage Adequacy**: Are you adequately covered?
+
+### Understanding Your Protection Dashboard
+
+**Key Metrics**:
+- **Total Coverage**: £750,000 across 2 policies
+- **Monthly Premiums**: £125/month total
+- **Coverage Status**: Adequate / Attention Needed / Insufficient
+
+**Status Indicators**:
+- **Green (Adequate)**: You have good coverage for your situation
+- **Amber (Attention Needed)**: Some gaps in coverage
+- **Red (Insufficient)**: Significant protection gap
+
+### Protection Needs Analysis
+
+**What You Need**:
+The app calculates recommended coverage based on:
+1. **Income Replacement**: 10x annual income if you have dependents
+2. **Debt Coverage**: Outstanding mortgage and loans
+3. **Future Expenses**: Education costs, final expenses
+4. **Emergency Fund**: 6 months of household expenses
+
+**Running Needs Analysis**:
+1. Click **"Needs Analysis"**
+2. Enter your financial situation:
+   - Annual income
+   - Number of dependents
+   - Outstanding debts (mortgage, loans)
+   - Existing savings
+   - Monthly household expenses
+   - Spouse's income (if applicable)
+3. Review recommendations:
+   - **Coverage Gap**: How much more you need
+   - **Estimated Cost**: Monthly premium estimate
+   - **Recommendations**: Specific actions to take
+
+**Example Output**:
+```
+Your Protection Gap: £306,000
+Recommended Actions:
+1. Add £300k term life insurance (est. £30/month)
+2. Consider critical illness cover (£50/month for £150k)
+3. Review income protection needs
+```
+
+### Managing Policies
+
+**Edit a Policy**:
+1. Click policy card
+2. Click **"Edit"**
+3. Update details (value, premium, dates)
+4. Click **"Save Changes"**
+
+**Archive a Policy** (when policy ends):
+1. Click policy card
+2. Click **"Archive"**
+3. Confirm archival
+4. Policy moves to "Archived" tab
+
+**Premium Efficiency**:
+- See **"Premium per £100k Coverage"**
+- Compare your cost vs. typical rates
+- Consider shopping around if premiums are high
+
+### Tips & Best Practices
+
+✅ **Review Annually**: Life changes (marriage, children, house purchase) = protection needs change
+
+✅ **Life Events Trigger**: Review protection after:
+- Getting married
+- Having children
+- Buying a house
+- Changing jobs (may lose employer coverage)
+- Paying off mortgage
+
+✅ **Term vs Whole of Life**:
+- **Term Insurance**: Cheaper, covers specific period (e.g., until mortgage paid off)
+- **Whole of Life**: More expensive, covers entire life
+
+✅ **Don't Forget Critical Illness**: 1 in 2 people will get cancer, heart disease, or stroke in their lifetime
+
+---
+
+## Savings Module
+
+**Goal**: Build emergency funds and save for short-term goals.
+
+### What is Savings?
+
+The Savings Module helps you:
+- Track all your cash savings accounts (savings accounts, ISAs, current accounts)
+- Monitor your emergency fund status
+- Set and track savings goals
+- Maximize interest earnings
+
+### Getting Started
+
+1. **Navigate to Savings Module**
+   - From main dashboard, click **"Savings"** card
+   - Or use navigation: **Modules > Savings**
+
+2. **Add Your First Savings Account**
+   - Click **"Add Account"**
+   - Select account type:
+     - **Savings Account**: Standard savings
+     - **ISA**: Cash ISA (tax-free)
+     - **Current Account**: Checking account with balance
+     - **Easy Access**: Instant access savings
+     - **Fixed Term**: Locked for fixed period
+   - Enter account details:
+     - Account name (e.g., "Emergency Fund")
+     - Provider (e.g., "Example Bank")
+     - Current balance (e.g., £15,000)
+     - Interest rate (e.g., 2.5%)
+     - Account number (last 4 digits for reference)
+   - Click **"Save Account"**
+
+3. **Review Your Savings**
+   - **Total Balance**: All your cash savings
+   - **Emergency Fund**: Months of expenses covered
+   - **Interest Analysis**: Average interest rate earned
+   - **Accounts by Type**: ISA, savings, current accounts
+
+### Understanding Your Savings Dashboard
+
+**Key Metrics**:
+- **Total Balance**: £25,000 across 2 accounts
+- **Emergency Fund**: 8.3 months of expenses
+- **Average Interest Rate**: 2.75%
+
+**Emergency Fund Status**:
+- **6+ months**: Excellent - you're well protected
+- **3-6 months**: Adequate - aim for 6 months for optimal security
+- **1-3 months**: Needs improvement - keep building
+- **<1 month**: Insufficient - prioritize emergency fund
+
+### Setting Savings Goals
+
+**Create a Goal**:
+1. Click **"Goals"** tab
+2. Click **"Add Goal"**
+3. Enter goal details:
+   - Goal name (e.g., "Emergency Fund", "Holiday Fund", "House Deposit")
+   - Target amount (e.g., £18,000 for 6-month emergency fund)
+   - Target date (e.g., December 2025)
+   - Monthly contribution (e.g., £500)
+4. Click **"Save Goal"**
+
+**Track Progress**:
+- **Progress Bar**: Visual progress toward goal
+- **Months Remaining**: Time until target date
+- **On Track Indicator**: Green if on track, amber if behind
+
+**Example**:
+```
+Emergency Fund Goal
+Target: £18,000 by Dec 2025
+Current: £15,000 (83% complete)
+Monthly Contribution: £500
+Status: On Track ✓
+```
+
+### Savings Analytics
+
+**Balance Trends**:
+- See how your savings have grown over time
+- Month-by-month balance chart
+- Identify savings rate patterns
+
+**Interest Analysis**:
+- Total interest earned this year
+- Average interest rate across accounts
+- Recommendations for higher-yield accounts
+
+**Savings Rate**:
+- Percentage of income you're saving
+- Target: 20%+ for healthy finances
+- See trends over time
+
+### Tips & Best Practices
+
+✅ **Emergency Fund First**: Prioritize 3-6 months of expenses before investing
+
+✅ **High-Yield Accounts**: Shop around for best interest rates (currently 4-5% available)
+
+✅ **Use ISAs Wisely**: £20,000 annual allowance (2024/25) - tax-free interest
+
+✅ **Automate Savings**: Set up standing orders on payday
+
+✅ **Separate Goals**: Use different accounts for different goals (emergency, holiday, house)
+
+---
+
+## Investment Module
+
+**Goal**: Grow wealth for long-term financial goals.
+
+### What is Investment?
+
+The Investment Module helps you:
+- Track stocks, bonds, ETFs, mutual funds, and other investments
+- Monitor portfolio performance (gain/loss)
+- Analyze asset allocation and diversification
+- Rebalance your portfolio
+
+### Getting Started
+
+1. **Navigate to Investment Module**
+   - From main dashboard, click **"Investment"** card
+   - Or use navigation: **Modules > Investment**
+
+2. **Add Your First Investment**
+   - Click **"Add Investment"**
+   - Select investment type:
+     - **Stocks**: Individual company shares
+     - **Bonds**: Government or corporate bonds
+     - **ETF**: Exchange-Traded Fund
+     - **Mutual Fund**: Actively managed fund
+     - **REIT**: Real Estate Investment Trust
+     - **Crypto**: Cryptocurrency
+     - **Commodity**: Gold, silver, oil, etc.
+     - **Cash**: Money market funds
+   - Enter investment details:
+     - Name (e.g., "FTSE 100 Index Fund")
+     - Provider/broker (e.g., "Example Broker")
+     - Current value (e.g., £15,000)
+     - Total contributions (what you've put in: £12,000)
+     - Number of units (e.g., 100)
+     - Purchase price per unit (e.g., £120)
+     - Annual dividend (optional, e.g., £300)
+   - Click **"Save Investment"**
+
+3. **Review Your Portfolio**
+   - **Total Value**: Current market value
+   - **Gain/Loss**: How much you're up or down
+   - **Asset Allocation**: Breakdown by asset class
+   - **Holdings**: Individual investments
+
+### Understanding Your Investment Dashboard
+
+**Key Metrics**:
+- **Total Value**: £40,000
+- **Total Contributions**: £32,000
+- **Gain/Loss**: £8,000 (+25%)
+- **Annual Dividend Income**: £1,200
+
+**Asset Allocation**:
+```
+Equities (Stocks/ETFs): 75% (£30,000)
+Bonds: 15% (£6,000)
+Cash: 10% (£4,000)
+```
+
+**Status Indicators**:
+- **Growing**: Portfolio value increasing
+- **Stable**: Minimal changes
+- **Attention Needed**: Significant losses or imbalance
+- **Negative**: Portfolio underwater
+
+### Investment Analytics
+
+**Performance Metrics**:
+- **Total Return**: £8,000 gain (+25%)
+- **Annualized Return**: Average yearly return
+- **Dividend Yield**: Income as % of portfolio value
+
+**Risk Metrics**:
+- **Portfolio Risk Score**: Low / Medium / High
+- Based on asset mix and volatility
+- **Diversification Score**: How spread out your investments are
+- Target: 70%+ for good diversification
+
+**Income Analysis**:
+- **Annual Dividend Income**: £1,200
+- **Monthly Income**: £100
+- **Dividend Yield**: 3.0%
+
+### Portfolio Rebalancing
+
+**What is Rebalancing?**
+Over time, your portfolio drifts from your target allocation. Rebalancing brings it back in line.
+
+**Example**:
+```
+Your Target: 60% Stocks, 30% Bonds, 10% Cash
+Current Actual: 75% Stocks, 15% Bonds, 10% Cash
+Drift: Stocks +15% (overweight)
+```
+
+**Rebalancing Recommendations**:
+1. **Sell £6,000 of stocks** (reduce from 75% to 60%)
+2. **Buy £6,000 of bonds** (increase from 15% to 30%)
+3. **Keep cash at 10%**
+
+**When to Rebalance**:
+- Once or twice per year
+- When allocation drifts >5% from target
+- After major market movements
+
+**How to Rebalance**:
+1. Click **"Rebalancing"** tab
+2. Review current vs. target allocation
+3. See specific recommendations
+4. Execute trades with your broker
+5. Update investment values in app
+
+### Tips & Best Practices
+
+✅ **Long-Term Focus**: Don't panic sell during downturns - stay invested
+
+✅ **Diversify**: Don't put all eggs in one basket (spread across asset classes)
+
+✅ **Low Fees**: Prefer index funds/ETFs over expensive active funds
+
+✅ **ISA/SIPP Wrappers**: Use tax-efficient accounts (£20k ISA, £60k pension annual allowance)
+
+✅ **Regular Contributions**: Pound-cost averaging reduces timing risk
+
+---
+
+## Retirement Module
+
+**Goal**: Build a pension pot for financial independence in retirement.
+
+### What is the Retirement Module?
+
+The Retirement Module helps you:
+- Track all your pension schemes (workplace, personal, SIPPs)
+- Project retirement income
+- Monitor annual allowance usage
+- Optimize pension contributions for tax relief
+
+### Getting Started
+
+1. **Navigate to Retirement Module**
+   - From main dashboard, click **"Retirement"** card
+   - Or use navigation: **Modules > Retirement**
+
+2. **Add Your First Pension**
+   - Click **"Add Pension"**
+   - Select pension type:
+     - **Workplace Pension**: Auto-enrolment or company scheme
+     - **Personal Pension**: Private pension
+     - **SIPP**: Self-Invested Personal Pension
+     - **Defined Benefit**: Final salary scheme (rare)
+     - **State Pension**: Government pension (auto-calculated)
+   - Enter pension details:
+     - Pension name (e.g., "Workplace Pension")
+     - Provider (e.g., "Example Pension Provider")
+     - Current value (e.g., £150,000)
+     - Annual contribution (your contributions: £12,000)
+     - Employer contribution (£4,000 if workplace)
+     - Tax relief (auto-calculated at 20-45%)
+   - Click **"Save Pension"**
+
+3. **Review Your Retirement Status**
+   - **Total Pension Value**: All schemes combined
+   - **Projected Income**: Estimated annual income at retirement
+   - **Retirement Readiness**: On track / Behind / Ahead
+   - **Years to Retirement**: Based on target retirement age
+
+### Understanding Your Retirement Dashboard
+
+**Key Metrics**:
+- **Total Pension Value**: £225,000 across 2 pensions
+- **Projected Annual Income**: £9,000/year (4% withdrawal rate)
+- **Retirement Age**: 65 (configurable)
+- **Years to Retirement**: 25 years
+- **Retirement Readiness**: On Track
+
+**Status Indicators**:
+- **Ahead**: Exceeding retirement savings target
+- **On Track**: Meeting retirement goals
+- **Behind**: Need to increase contributions
+- **At Risk**: Significantly behind target
+
+### Retirement Projections
+
+**4% Withdrawal Rule**:
+The app assumes you'll withdraw 4% of your pension pot annually in retirement (sustainable rate).
+
+**Example**:
+```
+Pension Pot at 65: £450,000
+Annual Withdrawal (4%): £18,000
+Plus State Pension: £11,500
+Total Retirement Income: £29,500/year
+```
+
+**Running Projections**:
+1. Click **"Projections"** tab
+2. Select retirement age (60, 65, 67, 70)
+3. See projected outcomes:
+   - Pension pot size at retirement
+   - Annual income available
+   - Comparison to target income
+4. Try different scenarios:
+   - Increase contributions by £100/month
+   - Retire 2 years later
+   - Adjust investment returns
+
+**Monte Carlo Simulation**:
+See range of possible outcomes based on market volatility:
+- **Best Case (90th percentile)**: £650,000
+- **Expected (50th percentile)**: £450,000
+- **Worst Case (10th percentile)**: £300,000
+- **Success Rate**: 85% chance of meeting target
+
+### Annual Allowance Tracking
+
+**What is Annual Allowance?**
+The maximum you can contribute to pensions each tax year with tax relief: £60,000 (2024/25).
+
+**Tracking Usage**:
+```
+Annual Allowance: £60,000
+Used This Year: £16,000 (26.7%)
+  - Your contributions: £12,000
+  - Employer contributions: £4,000
+Remaining: £44,000
+```
+
+**Carry Forward**:
+If you didn't use full allowance in previous 3 years, you can carry forward unused allowance.
+
+**Tapered Allowance**:
+High earners (£200k-£360k income) have reduced annual allowance. The app auto-calculates this.
+
+### Tips & Best Practices
+
+✅ **Start Early**: Compound growth is powerful - 25-year-olds need half the contributions of 40-year-olds for same outcome
+
+✅ **Maximize Employer Match**: Free money - always contribute enough to get full employer match
+
+✅ **Use Salary Sacrifice**: Save on National Insurance (ask your employer)
+
+✅ **State Pension**: Check your forecast at gov.uk/check-state-pension - you need 35 qualifying years for full amount (£11,500/year in 2024/25)
+
+✅ **Consolidate Old Pensions**: Track down old workplace pensions and consider consolidating to reduce fees
+
+---
+
+## IHT Planning Module
+
+**Goal**: Protect your wealth and minimize inheritance tax for your beneficiaries.
+
+### What is IHT Planning?
+
+The IHT Planning Module helps you:
+- Calculate potential inheritance tax liability
+- Track gifts made in the last 7 years (for taper relief)
+- Manage trusts and estate planning strategies
+- Optimize estate to reduce IHT
+
+### Getting Started
+
+1. **Navigate to IHT Planning Module**
+   - From main dashboard, click **"IHT Planning"** card
+   - Or use navigation: **Modules > IHT Planning**
+
+2. **Calculate Your IHT Liability**
+   - Click **"Calculate IHT"**
+   - Enter your estate:
+     - **Assets**: Property £500k, Savings £100k, Investments £50k, Pensions £150k
+     - **Liabilities**: Mortgage £200k, Other debts £0
+   - Enter gifts in last 7 years (if any)
+   - Select options:
+     - Do you own main residence? Yes/No
+     - Leaving to direct descendants? Yes/No
+   - Click **"Calculate"**
+
+3. **Review Your IHT Status**
+   - **Estate Value**: £600,000 (assets - liabilities)
+   - **IHT Liability**: £70,000 (if you died today)
+   - **Nil-Rate Bands**: £325k standard + £175k residence
+   - **Effective Rate**: 11.7% of estate
+
+### Understanding Your IHT Dashboard
+
+**Key Metrics**:
+- **Estate Value**: £600,000
+- **IHT Liability**: £70,000
+- **Status**: Attention Needed (significant IHT)
+- **Potential Savings**: £45,000 (with planning)
+
+**Status Indicators**:
+- **No Liability**: Estate below £325k (or £500k with residence band)
+- **Low Risk**: Minimal IHT, easy to plan around
+- **Attention Needed**: Moderate IHT, planning recommended
+- **High Risk**: Significant IHT, urgent action needed
+
+### Managing Gifts (7-Year Rule)
+
+**What is the 7-Year Rule?**
+Gifts made more than 7 years before death are IHT-free. Gifts within 7 years may be taxed with taper relief.
+
+**Recording a Gift**:
+1. Click **"Gifts"** tab
+2. Click **"Add Gift"**
+3. Enter gift details:
+   - Recipient name (e.g., "Son")
+   - Relationship (child, grandchild, spouse, friend)
+   - Gift date (e.g., "15 Jan 2022")
+   - Amount (e.g., £50,000)
+   - Gift type (cash, property, shares)
+   - Notes (e.g., "Wedding gift")
+4. Click **"Save Gift"**
+
+**Taper Relief**:
+The app automatically calculates taper relief:
+```
+Gift made 5 years ago: £100,000
+IHT due if you died today: 60% relief
+Taxable amount: £40,000 (£100k - 60%)
+IHT: £16,000 (40% of £40k)
+```
+
+**Taper Relief Schedule**:
+- 0-3 years: 0% relief (full IHT)
+- 3-4 years: 20% relief
+- 4-5 years: 40% relief
+- 5-6 years: 60% relief
+- 6-7 years: 80% relief
+- 7+ years: 100% relief (no IHT)
+
+### Managing Trusts
+
+**What are Trusts?**
+Legal arrangements to hold assets for beneficiaries, with potential IHT advantages.
+
+**Recording a Trust**:
+1. Click **"Trusts"** tab
+2. Click **"Add Trust"**
+3. Enter trust details:
+   - Trust name (e.g., "Family Trust")
+   - Trust type (discretionary, bare, interest in possession)
+   - Establishment date
+   - Trust value
+   - Beneficiaries
+   - Trustees
+4. Click **"Save Trust"**
+
+**Trust Tax**:
+- **10-Year Periodic Charge**: 6% of trust value every 10 years (discretionary trusts)
+- **Exit Charge**: When assets leave trust
+- App calculates and reminds you of upcoming charges
+
+### IHT Reduction Strategies
+
+**Recommendations Based on Your Situation**:
+
+1. **Make Regular Gifts**
+   - Use £3,000 annual exemption
+   - Use £250 small gift exemption (per recipient)
+   - Regular gifts from income (exempt if doesn't reduce standard of living)
+
+2. **Use Residence Nil-Rate Band**
+   - Worth £175,000 if leaving home to children/grandchildren
+   - Tapers away for estates over £2m
+
+3. **Spouse Exemption**
+   - Gifts to spouse are IHT-free
+   - Transfer unused nil-rate band to spouse
+
+4. **Charitable Giving**
+   - Gifts to charity are IHT-free
+   - 10%+ to charity reduces IHT rate from 40% to 36%
+
+5. **Business/Agricultural Relief**
+   - Qualifying business assets: 50-100% relief
+   - Agricultural property: 50-100% relief
+
+6. **Life Insurance in Trust**
+   - Life policy pays out IHT liability
+   - Held in trust = outside estate
+
+### Tips & Best Practices
+
+✅ **Start Early**: The 7-year rule means early gifting saves more tax
+
+✅ **Keep Records**: Document all gifts (date, amount, recipient) - the app does this for you
+
+✅ **Annual Exemptions**: Use £3,000 annual gift exemption every year (can carry forward 1 year if unused)
+
+✅ **Review Regularly**: Life changes (marriage, children, house value changes) affect IHT
+
+✅ **Get Professional Advice**: Complex estates benefit from IFA or solicitor advice
 
 ---
 
