@@ -114,14 +114,81 @@ async def get_dashboard_overview(
             "monthly_contributions": savings_summary["monthly_savings"] + pension_summary["monthly_contributions"],
         }
 
-        # Convert all Decimal values to float
+        # Convert to frontend-expected format
         dashboard_data = {
-            "protection": decimal_to_float(protection_summary),
-            "savings": decimal_to_float(savings_summary),
-            "pension": decimal_to_float(pension_summary),
-            "investment": decimal_to_float(investment_summary),
-            "iht": decimal_to_float(iht_summary),
-            "overall": decimal_to_float(overall_summary)
+            "modules": [
+                {
+                    "module": "protection",
+                    "headlineMetric": {
+                        "label": "Total Coverage",
+                        "value": f"£{protection_summary['total_coverage']:,.0f}"
+                    },
+                    "supportingMetrics": [
+                        {"label": "Active Policies", "value": str(protection_summary['active_policies'])},
+                        {"label": "Monthly Premiums", "value": f"£{protection_summary['monthly_premiums']:,.2f}"}
+                    ],
+                    "status": "good" if protection_summary['active_policies'] > 0 else "attention",
+                    "statusMessage": "Coverage is active" if protection_summary['active_policies'] > 0 else "No active policies"
+                },
+                {
+                    "module": "savings",
+                    "headlineMetric": {
+                        "label": "Total Savings",
+                        "value": f"£{savings_summary['total_balance']:,.0f}"
+                    },
+                    "supportingMetrics": [
+                        {"label": "Accounts", "value": str(savings_summary['accounts'])},
+                        {"label": "Monthly Savings", "value": f"£{savings_summary['monthly_savings']:,.2f}"}
+                    ],
+                    "status": "good" if savings_summary['total_balance'] > 0 else "attention",
+                    "statusMessage": "Savings on track" if savings_summary['total_balance'] > 0 else "Start saving"
+                },
+                {
+                    "module": "investment",
+                    "headlineMetric": {
+                        "label": "Portfolio Value",
+                        "value": f"£{investment_summary['total_value']:,.0f}"
+                    },
+                    "supportingMetrics": [
+                        {"label": "Holdings", "value": str(investment_summary['holdings'])},
+                        {"label": "Invested", "value": f"£{investment_summary['invested']:,.0f}"}
+                    ],
+                    "status": "good" if investment_summary['total_value'] > 0 else "attention",
+                    "statusMessage": "Portfolio active" if investment_summary['total_value'] > 0 else "Start investing"
+                },
+                {
+                    "module": "retirement",
+                    "headlineMetric": {
+                        "label": "Pension Value",
+                        "value": f"£{pension_summary['total_value']:,.0f}"
+                    },
+                    "supportingMetrics": [
+                        {"label": "Schemes", "value": str(pension_summary['schemes'])},
+                        {"label": "Monthly Contributions", "value": f"£{pension_summary['monthly_contributions']:,.2f}"}
+                    ],
+                    "status": "good" if pension_summary['total_value'] > 0 else "attention",
+                    "statusMessage": "Retirement planning active" if pension_summary['total_value'] > 0 else "Start pension planning"
+                },
+                {
+                    "module": "iht",
+                    "headlineMetric": {
+                        "label": "Estate Value",
+                        "value": f"£{iht_summary['estate_value']:,.0f}"
+                    },
+                    "supportingMetrics": [
+                        {"label": "IHT Liability", "value": f"£{iht_summary['iht_liability']:,.0f}"},
+                        {"label": "Nil Rate Band Used", "value": f"{iht_summary['nil_rate_band_used']:.0%}"}
+                    ],
+                    "status": "good" if iht_summary['iht_liability'] == 0 else "attention",
+                    "statusMessage": "No IHT liability" if iht_summary['iht_liability'] == 0 else "Consider IHT planning"
+                }
+            ],
+            "overallStatus": {
+                "netWorth": decimal_to_float(total_assets),
+                "monthlyIncome": 0,  # TODO: Add income tracking
+                "monthlyExpenses": decimal_to_float(overall_summary['monthly_outgoings']),
+                "monthlySavings": decimal_to_float(overall_summary['monthly_contributions'])
+            }
         }
 
         return dashboard_data
