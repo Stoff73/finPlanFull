@@ -24,8 +24,8 @@
 - [x] Test responsive design
 - [x] Test loading states
 - [x] Test error handling
-- [ ] Fix ModuleHeader props (uses title/subtitle/icon, should use moduleName/moduleIcon)
-- [ ] Commit changes
+- [x] Fix ModuleHeader props (uses title/subtitle/icon, should use moduleName/moduleIcon) - Fixed in Task 31
+- [x] Commit changes - Committed in Task 31
 
 **Files Created:**
 
@@ -46,8 +46,8 @@
 - [x] Add delete confirmation modal
 - [x] Test CRUD operations (structure complete)
 - [x] Test validation (client-side validation added)
-- [ ] Fix ModuleHeader props
-- [ ] Commit changes
+- [x] Fix ModuleHeader props - Fixed in Task 31
+- [x] Commit changes - Committed in Task 31
 
 **Files Created:**
 
@@ -67,8 +67,8 @@
 - [x] Create premium trend chart (bar chart for last 12 months)
 - [x] Display coverage adequacy metrics
 - [x] Test charts render correctly (structure complete)
-- [ ] Fix ModuleHeader props
-- [ ] Commit changes
+- [x] Fix ModuleHeader props - Fixed in Task 31
+- [x] Commit changes - Committed in Task 31
 
 **Files Created:**
 
