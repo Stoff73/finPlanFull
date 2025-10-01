@@ -1,31 +1,32 @@
 ## Phase 5: Navigation & Routing (8 tasks)
 
 **Estimated Time:** 3-5 days
+**Status:** ✅ COMPLETED
 
 ### Task 56: Update Header Navigation 🧭 MEDIUM
 
-**Status:** ⬜ Not Started | **Dependencies:** Task 51
+**Status:** ✅ COMPLETED | **Dependencies:** Task 51
 
 **Actions:**
 
-- [ ] Open `frontend/src/components/layout/Header.tsx`
-- [ ] Remove old navigation items:
+- [x] Open `frontend/src/components/layout/Header.tsx`
+- [x] Remove old navigation items:
   - Banking
   - Products
   - Analytics
   - UK Pension
   - Tax Optimisation
   - Estate Planning dropdown
-- [ ] Add new navigation items:
+- [x] Add new navigation items:
   - Protection
   - Savings
   - Investment
   - Retirement
   - IHT Planning
-- [ ] Update links to module routes
-- [ ] Test navigation on desktop
-- [ ] Test hover states
-- [ ] Commit changes
+- [x] Update links to module routes
+- [x] Test navigation on desktop
+- [x] Test hover states
+- [x] Commit changes
 
 **Files Modified:**
 
@@ -35,16 +36,16 @@
 
 ### Task 57: Update Mobile Navigation 📱 MEDIUM
 
-**Status:** ⬜ Not Started | **Dependencies:** Task 56
+**Status:** ✅ COMPLETED | **Dependencies:** Task 56
 
 **Actions:**
 
-- [ ] Open `frontend/src/components/layout/MobileNav.tsx`
-- [ ] Update to match Header navigation structure
-- [ ] Add module icons
-- [ ] Test mobile navigation
-- [ ] Test touch interactions
-- [ ] Commit changes
+- [x] Open `frontend/src/components/layout/MobileNav.tsx`
+- [x] Update to match Header navigation structure
+- [x] Add module icons
+- [x] Test mobile navigation
+- [x] Test touch interactions
+- [x] Commit changes
 
 **Files Modified:**
 
@@ -54,22 +55,22 @@
 
 ### Task 58: Update App Routing 🚦 COMPLEX
 
-**Status:** ⬜ Not Started | **Dependencies:** Tasks 28-50
+**Status:** ✅ COMPLETED | **Dependencies:** Tasks 28-50
 
 **Actions:**
 
-- [ ] Open `frontend/src/App.tsx`
-- [ ] Add imports for all new module pages
-- [ ] Add routes for all modules:
+- [x] Open `frontend/src/App.tsx`
+- [x] Add imports for all new module pages
+- [x] Add routes for all modules:
   - `/protection` → ProtectionDashboard
   - `/protection/products` → ProtectionProducts
   - `/protection/analytics` → ProtectionAnalytics
   - `/protection/needs-analysis` → NeedsAnalysis
   - (Repeat for all 5 modules and their sub-pages)
-- [ ] Keep old routes temporarily (mark for deprecation)
-- [ ] Test all new routes work
-- [ ] Test route transitions
-- [ ] Commit changes
+- [x] Keep old routes temporarily (mark for deprecation)
+- [x] Test all new routes work
+- [x] Test route transitions
+- [x] Commit changes
 
 **Files Modified:**
 
@@ -77,45 +78,45 @@
 
 **Routes to Add:** (35+ routes)
 
-- [ ] `/protection` (dashboard)
-- [ ] `/protection/products`
-- [ ] `/protection/analytics`
-- [ ] `/protection/needs-analysis`
-- [ ] `/savings` (dashboard)
-- [ ] `/savings/accounts`
-- [ ] `/savings/goals`
-- [ ] `/savings/analytics`
-- [ ] `/investment` (dashboard)
-- [ ] `/investment/portfolio`
-- [ ] `/investment/analytics`
-- [ ] `/investment/rebalancing`
-- [ ] `/investment/goals`
-- [ ] `/retirement` (dashboard)
-- [ ] `/retirement/pensions`
-- [ ] `/retirement/planning`
-- [ ] `/retirement/projections`
-- [ ] `/retirement/monte-carlo`
-- [ ] `/iht-planning` (dashboard)
-- [ ] `/iht-planning/calculator`
-- [ ] `/iht-planning/compliance`
-- [ ] `/iht-planning/scenarios`
-- [ ] `/iht-planning/gifts`
-- [ ] `/iht-planning/trusts`
+- [x] `/protection` (dashboard)
+- [x] `/protection/products`
+- [x] `/protection/analytics`
+- [x] `/protection/needs-analysis`
+- [x] `/savings` (dashboard)
+- [x] `/savings/accounts`
+- [x] `/savings/goals`
+- [x] `/savings/analytics`
+- [x] `/investment` (dashboard)
+- [x] `/investment/portfolio`
+- [x] `/investment/analytics`
+- [x] `/investment/rebalancing`
+- [x] `/investment/goals`
+- [x] `/retirement` (dashboard)
+- [x] `/retirement/pensions`
+- [x] `/retirement/planning`
+- [x] `/retirement/projections`
+- [x] `/retirement/monte-carlo`
+- [x] `/iht-planning` (dashboard)
+- [x] `/iht-planning/calculator`
+- [x] `/iht-planning/compliance`
+- [x] `/iht-planning/scenarios`
+- [x] `/iht-planning/gifts`
+- [x] `/iht-planning/trusts`
 
 ---
 
 ### Task 59: Update Breadcrumb Component 🍞 MEDIUM
 
-**Status:** ⬜ Not Started | **Dependencies:** Task 58
+**Status:** ✅ COMPLETED | **Dependencies:** Task 58
 
 **Actions:**
 
-- [ ] Open `frontend/src/components/common/Breadcrumb.tsx`
-- [ ] Add module-aware breadcrumb logic
-- [ ] Display: Dashboard → Module → Page
-- [ ] Use module navigation helper
-- [ ] Test breadcrumbs on all module pages
-- [ ] Commit changes
+- [x] Open `frontend/src/components/common/Breadcrumb.tsx`
+- [x] Add module-aware breadcrumb logic
+- [x] Display: Dashboard → Module → Page
+- [x] Use module navigation helper
+- [x] Test breadcrumbs on all module pages
+- [x] Commit changes
 
 **Files Modified:**
 
@@ -125,14 +126,14 @@
 
 ### Task 60: Create Module Route Guards 🔒 SIMPLE
 
-**Status:** ⬜ Not Started | **Dependencies:** Task 58
+**Status:** ✅ COMPLETED | **Dependencies:** Task 58
 
 **Actions:**
 
-- [ ] Review authentication in `frontend/src/App.tsx`
-- [ ] Ensure all module routes require authentication
-- [ ] Test unauthenticated users are redirected to login
-- [ ] Commit changes
+- [x] Review authentication in `frontend/src/App.tsx`
+- [x] Ensure all module routes require authentication
+- [x] Test unauthenticated users are redirected to login
+- [x] Commit changes
 
 **Files Modified:**
 
@@ -142,11 +143,11 @@
 
 ### Task 61: Implement Redirects from Old Routes 🔀 MEDIUM
 
-**Status:** ⬜ Not Started | **Dependencies:** Task 58
+**Status:** ✅ COMPLETED | **Dependencies:** Task 58
 
 **Actions:**
 
-- [ ] Add redirect routes in `frontend/src/App.tsx`:
+- [x] Add redirect routes in `frontend/src/App.tsx`:
   - `/products/protection` → `/protection/products`
   - `/products/investments` → `/investment/portfolio`
   - `/products/pensions` → `/retirement/pensions`
@@ -158,9 +159,9 @@
   - `/monte-carlo` → `/retirement/monte-carlo`
   - `/iht-calculator-complete` → `/iht-planning/calculator`
   - `/iht-compliance` → `/iht-planning/compliance`
-- [ ] Test all redirects work
-- [ ] Add deprecation notices to old routes
-- [ ] Commit changes
+- [x] Test all redirects work
+- [x] Add deprecation notices to old routes
+- [x] Commit changes
 
 **Files Modified:**
 
@@ -168,32 +169,34 @@
 
 **Redirects to Implement:**
 
-- [ ] `/products/protection` → `/protection/products`
-- [ ] `/products/investments` → `/investment/portfolio`
-- [ ] `/products/pensions` → `/retirement/pensions`
-- [ ] `/bank-accounts` → `/savings/accounts`
-- [ ] `/portfolio-analytics` → `/investment/analytics`
-- [ ] `/portfolio-rebalancing` → `/investment/rebalancing`
-- [ ] `/retirement-planning-uk` → `/retirement/planning`
-- [ ] `/financial-projections` → `/retirement/projections`
-- [ ] `/monte-carlo` → `/retirement/monte-carlo`
-- [ ] `/iht-calculator-complete` → `/iht-planning/calculator`
-- [ ] `/iht-compliance` → `/iht-planning/compliance`
+- [x] `/products/protection` → `/protection/products`
+- [x] `/products/investments` → `/investment/portfolio`
+- [x] `/products/pensions` → `/retirement/pensions`
+- [x] `/bank-accounts` → `/savings/accounts`
+- [x] `/portfolio-analytics` → `/investment/analytics`
+- [x] `/portfolio-rebalancing` → `/investment/rebalancing`
+- [x] `/retirement-planning-uk` → `/retirement/planning`
+- [x] `/financial-projections` → `/retirement/projections`
+- [x] `/monte-carlo` → `/retirement/monte-carlo`
+- [x] `/iht-calculator-complete` → `/iht-planning/calculator`
+- [x] `/iht-compliance` → `/iht-planning/compliance`
 
 ---
 
 ### Task 62: Update Learning Centre Links 📚 SIMPLE
 
-**Status:** ⬜ Not Started | **Dependencies:** None
+**Status:** ✅ COMPLETED | **Dependencies:** None
 
 **Actions:**
 
-- [ ] Review documentation files in `docs/`
-- [ ] Update links to reference new module structure
-- [ ] Update help content in Learning Centre
-- [ ] Update any hardcoded route references
-- [ ] Test all documentation links work
-- [ ] Commit changes
+- [x] Review documentation files in `docs/`
+- [x] Update links to reference new module structure
+- [x] Update help content in Learning Centre
+- [x] Update any hardcoded route references
+- [x] Test all documentation links work
+- [x] Commit changes
+
+**Notes:** No hardcoded route references found in documentation. All routes use relative paths or are handled by redirects.
 
 **Files Modified:**
 
@@ -204,15 +207,17 @@
 
 ### Task 63: Update Settings Page Links ⚙️ SIMPLE
 
-**Status:** ⬜ Not Started | **Dependencies:** None
+**Status:** ✅ COMPLETED | **Dependencies:** None
 
 **Actions:**
 
-- [ ] Open `frontend/src/pages/Settings.tsx`
-- [ ] Review any module-related links
-- [ ] Update if needed
-- [ ] Test settings page
-- [ ] Commit changes
+- [x] Open `frontend/src/pages/Settings.tsx`
+- [x] Review any module-related links
+- [x] Update if needed
+- [x] Test settings page
+- [x] Commit changes
+
+**Notes:** No changes needed. Settings page only links to `/financial-statements` which is a valid legacy route.
 
 **Files Modified:**
 
