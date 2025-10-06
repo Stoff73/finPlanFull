@@ -40,28 +40,28 @@ def get_iht_dashboard(
         IHTProfile.user_id == current_user.id
     ).first()
 
-    # Get all gifts
-    gifts = db.query(Gift).filter(
-        Gift.user_id == current_user.id
-    ).all()
+    # Get all gifts (linked to IHT profile)
+    if iht_profile:
+        gifts = db.query(Gift).filter(
+            Gift.iht_profile_id == iht_profile.id
+        ).all()
 
-    # Get all trusts
-    trusts = db.query(Trust).filter(
-        Trust.user_id == current_user.id
-    ).all()
+        # Get all trusts (linked to IHT profile)
+        trusts = db.query(Trust).filter(
+            Trust.iht_profile_id == iht_profile.id
+        ).all()
+    else:
+        gifts = []
+        trusts = []
 
     # --- Estate Valuation ---
     if iht_profile:
         estate_value = (iht_profile.estate_value or 0)
-        property_value = (iht_profile.property_value or 0)
-        other_assets = (iht_profile.other_assets or 0)
-        debts = (iht_profile.debts or 0)
-        net_estate = estate_value - debts
+        liabilities = (iht_profile.liabilities or 0)
+        net_estate = (iht_profile.net_estate or estate_value - liabilities)
     else:
         estate_value = 0
-        property_value = 0
-        other_assets = 0
-        debts = 0
+        liabilities = 0
         net_estate = 0
 
     # --- Nil-Rate Bands (2024/25) ---
@@ -108,14 +108,14 @@ def get_iht_dashboard(
     seven_years_ago = today - timedelta(days=7*365)
 
     # Count gifts within 7 years
-    gifts_within_7_years = [g for g in gifts if g.gift_date and g.gift_date >= seven_years_ago]
+    gifts_within_7_years = [g for g in gifts if g.date and g.date >= seven_years_ago]
     total_gifts_within_7_years = sum(g.amount or 0 for g in gifts_within_7_years)
 
     # Gifts outside 7 years (exempt)
-    gifts_outside_7_years = [g for g in gifts if g.gift_date and g.gift_date < seven_years_ago]
+    gifts_outside_7_years = [g for g in gifts if g.date and g.date < seven_years_ago]
 
     # Potentially Exempt Transfers (PETs) still in 7-year period
-    pets_at_risk = len([g for g in gifts_within_7_years if g.gift_type == 'PET'])
+    pets_at_risk = len([g for g in gifts_within_7_years if g.is_pet])
 
     # --- Trust Summary ---
     trust_count = len(trusts)
@@ -148,7 +148,7 @@ def get_iht_dashboard(
             "message": f"Consider making lifetime gifts. £{iht_liability / 0.40:,.0f} in gifts now could eliminate IHT if you survive 7 years."
         })
 
-    if not rnrb_applies and property_value > 0:
+    if not rnrb_applies and estate_value > 0:
         recommendations.append({
             "priority": "high",
             "category": "rnrb",
@@ -180,9 +180,7 @@ def get_iht_dashboard(
     return {
         "estate_valuation": {
             "gross_estate": estate_value,
-            "property_value": property_value,
-            "other_assets": other_assets,
-            "debts": debts,
+            "liabilities": liabilities,
             "net_estate": net_estate,
         },
         "nil_rate_bands": {
@@ -246,8 +244,8 @@ def get_iht_summary(
 
     # Calculate net estate
     estate_value = (iht_profile.estate_value or 0)
-    debts = (iht_profile.debts or 0)
-    net_estate = estate_value - debts
+    liabilities = (iht_profile.liabilities or 0)
+    net_estate = (iht_profile.net_estate or estate_value - liabilities)
 
     # Simple IHT calculation
     nil_rate_band = 325000

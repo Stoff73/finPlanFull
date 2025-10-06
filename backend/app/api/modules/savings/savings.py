@@ -95,31 +95,48 @@ async def get_savings_dashboard(
     # Calculate savings rate (placeholder - would need income/expense data)
     savings_rate = 0  # Percentage of income saved
 
+    # Get savings goals from ModuleGoal
+    from app.models.module_goal import ModuleGoal
+    goals = db.query(ModuleGoal).filter(
+        ModuleGoal.user_id == current_user.id,
+        ModuleGoal.module == "savings"
+    ).all()
+
     return {
-        "total_balance": total_balance,
-        "account_count": len(savings_products),
-        "emergency_fund": {
-            "months_covered": round(emergency_fund_months, 1),
-            "status": emergency_fund_status,
-            "target_months": 6,
-            "amount": total_balance,
-            "target_amount": assumed_monthly_expenses * 6
+        "metrics": {
+            "total_savings": total_balance,
+            "total_accounts": len(savings_products),
+            "emergency_fund": total_balance,
+            "emergency_fund_goal": assumed_monthly_expenses * 6,
+            "monthly_savings": 0  # Placeholder - would calculate from transactions
         },
-        "savings_rate": savings_rate,
-        "balance_by_type": balance_by_type,
         "accounts": [
             {
                 "id": p.id,
-                "name": p.name,
-                "account_type": p.product_type,
+                "product_name": p.name,
                 "provider": p.provider,
-                "balance": float(p.value or 0),
+                "product_value": float(p.value or 0),
                 "interest_rate": p.extra_metadata.get("interest_rate", 0) if p.extra_metadata else 0,
-                "last_updated": p.updated_at.isoformat() if p.updated_at else None,
-                "status": p.status
+                "account_type": p.product_type or "savings_account",
+                "start_date": p.created_at.isoformat() if p.created_at else None,
             }
             for p in savings_products
-        ]
+        ],
+        "goals": [
+            {
+                "id": g.id,
+                "module": g.module,
+                "goal_name": g.goal_name,
+                "target_amount": float(g.target_amount or 0),
+                "current_amount": float(g.current_amount or 0),
+                "target_date": g.target_date.isoformat() if g.target_date else None
+            }
+            for g in goals
+        ],
+        "analytics": {
+            "savings_rate": savings_rate,
+            "avg_monthly_deposit": 0  # Placeholder
+        }
     }
 
 

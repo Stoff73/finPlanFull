@@ -32,7 +32,7 @@ class ChatMessageResponse(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ChatSessionResponse(BaseModel):
     id: int
@@ -42,7 +42,7 @@ class ChatSessionResponse(BaseModel):
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ExtractedData(BaseModel):
     income: Optional[dict] = None
