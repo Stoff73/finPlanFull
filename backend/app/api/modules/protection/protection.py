@@ -95,7 +95,9 @@ async def get_protection_dashboard(
                 "id": p.id,
                 "product_name": p.name,
                 "provider": p.provider or "Unknown Provider",
+                "reference_number": p.reference_number or str(p.id),
                 "product_value": float(p.value or 0),
+                "currency": p.currency or "GBP",
                 "contribution": p.extra_metadata.get("monthly_premium", 0) if p.extra_metadata else 0,
                 "product_category": p.product_type or "other",
                 "start_date": p.start_date.isoformat() if p.start_date else datetime.now().isoformat()

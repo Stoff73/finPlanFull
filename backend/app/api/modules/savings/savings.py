@@ -114,7 +114,8 @@ async def get_savings_dashboard(
             {
                 "id": p.id,
                 "product_name": p.name,
-                "provider": p.provider,
+                "provider": p.provider or "Unknown",
+                "reference_number": p.reference_number or str(p.id),
                 "product_value": float(p.value or 0),
                 "currency": p.currency or "GBP",
                 "interest_rate": p.extra_metadata.get("interest_rate", 0) if p.extra_metadata else 0,

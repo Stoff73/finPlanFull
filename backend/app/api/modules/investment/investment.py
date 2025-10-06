@@ -114,7 +114,9 @@ def get_investment_dashboard(
                 "name": inv.name,
                 "product_type": inv.product_type,
                 "value": inv.value,
-                "provider": inv.provider,
+                "currency": inv.currency or "GBP",
+                "provider": inv.provider or "Unknown",
+                "reference_number": inv.reference_number or str(inv.id),
             }
             for inv in investments
         ],

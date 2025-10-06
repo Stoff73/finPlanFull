@@ -158,7 +158,8 @@ def get_retirement_dashboard(
                 "product_type": p.product_type,
                 "value": p.value,
                 "currency": p.currency or "GBP",
-                "provider": p.provider,
+                "provider": p.provider or "Unknown",
+                "reference_number": p.reference_number or str(p.id),
             }
             for p in pensions
         ],

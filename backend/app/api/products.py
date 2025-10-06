@@ -106,14 +106,296 @@ def get_all_products(
     products = query.order_by(Product.created_at.desc()).all()
     return products
 
-# Get specific product
+# Get specific product with full details
+@router.get("/{product_id}/details")
+def get_product_details(
+    product_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get a specific product by ID with ALL details including type-specific information"""
+    from app.models.product import PensionDetail, InvestmentDetail, ProtectionDetail, Document
+
+    product = db.query(Product).filter(
+        Product.id == product_id,
+        Product.user_id == current_user.id
+    ).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Build comprehensive response
+    response = {
+        # Core product fields
+        "id": product.id,
+        "product_name": product.product_name,
+        "provider": product.provider,
+        "reference_number": product.reference_number,
+        "product_type": product.product_type,
+        "module": product.module,
+
+        # Multi-jurisdiction
+        "currency": product.currency,
+        "jurisdiction": product.jurisdiction,
+
+        # Common fields
+        "current_value": product.current_value,
+        "initial_investment": product.initial_investment,
+        "start_date": product.start_date.isoformat() if product.start_date else None,
+        "maturity_date": product.maturity_date.isoformat() if product.maturity_date else None,
+        "status": product.status,
+
+        # Performance
+        "performance_ytd": product.performance_ytd,
+        "performance_1yr": product.performance_1yr,
+        "performance_3yr": product.performance_3yr,
+        "performance_5yr": product.performance_5yr,
+
+        # Fees
+        "annual_charge": product.annual_charge,
+        "platform_fee": product.platform_fee,
+        "other_fees": product.other_fees,
+
+        # Additional
+        "notes": product.notes,
+        "extra_metadata": product.extra_metadata,
+
+        "created_at": product.created_at.isoformat() if product.created_at else None,
+        "updated_at": product.updated_at.isoformat() if product.updated_at else None,
+    }
+
+    # Add type-specific details
+    if product.product_type == "pension" or product.module == "retirement":
+        pension_detail = db.query(PensionDetail).filter(PensionDetail.product_id == product.id).first()
+        if pension_detail:
+            response["pension_details"] = {
+                "pension_type": pension_detail.pension_type,
+                "retirement_age": pension_detail.retirement_age,
+                "projected_value_at_retirement": pension_detail.projected_value_at_retirement,
+                "employee_contribution": pension_detail.employee_contribution,
+                "employer_contribution": pension_detail.employer_contribution,
+                "contribution_frequency": pension_detail.contribution_frequency,
+                "death_benefit": pension_detail.death_benefit,
+                "guaranteed_period": pension_detail.guaranteed_period,
+                "tax_free_cash_percentage": pension_detail.tax_free_cash_percentage,
+                "annuity_rate": pension_detail.annuity_rate,
+                "includes_spouse_benefit": pension_detail.includes_spouse_benefit,
+                "spouse_benefit_percentage": pension_detail.spouse_benefit_percentage,
+            }
+
+    elif product.product_type == "investment" or product.module == "investment":
+        investment_detail = db.query(InvestmentDetail).filter(InvestmentDetail.product_id == product.id).first()
+        if investment_detail:
+            response["investment_details"] = {
+                "investment_type": investment_detail.investment_type,
+                "risk_rating": investment_detail.risk_rating,
+                "asset_allocation": investment_detail.asset_allocation,
+                "isa_type": investment_detail.isa_type,
+                "current_year_contribution": investment_detail.current_year_contribution,
+                "isa_allowance_used": investment_detail.isa_allowance_used,
+                "investment_strategy": investment_detail.investment_strategy,
+                "benchmark": investment_detail.benchmark,
+                "fund_codes": investment_detail.fund_codes,
+                "regular_investment_amount": investment_detail.regular_investment_amount,
+                "regular_investment_frequency": investment_detail.regular_investment_frequency,
+            }
+
+    elif product.product_type == "protection" or product.module == "protection":
+        protection_detail = db.query(ProtectionDetail).filter(ProtectionDetail.product_id == product.id).first()
+        if protection_detail:
+            response["protection_details"] = {
+                "protection_type": protection_detail.protection_type,
+                "sum_assured": protection_detail.sum_assured,
+                "premium": protection_detail.premium,
+                "premium_frequency": protection_detail.premium_frequency,
+                "term_years": protection_detail.term_years,
+                "is_joint_policy": protection_detail.is_joint_policy,
+                "includes_critical_illness": protection_detail.includes_critical_illness,
+                "includes_waiver_of_premium": protection_detail.includes_waiver_of_premium,
+                "in_trust": protection_detail.in_trust,
+                "trust_details": protection_detail.trust_details,
+                "beneficiaries": protection_detail.beneficiaries,
+                "smoker_status": protection_detail.smoker_status,
+                "medical_conditions": protection_detail.medical_conditions,
+            }
+
+    # Add documents
+    documents = db.query(Document).filter(Document.product_id == product.id).all()
+    response["documents"] = [
+        {
+            "id": doc.id,
+            "document_type": doc.document_type,
+            "document_name": doc.document_name,
+            "file_path": doc.file_path,
+            "file_size": doc.file_size,
+            "mime_type": doc.mime_type,
+            "uploaded_at": doc.uploaded_at.isoformat() if doc.uploaded_at else None,
+        }
+        for doc in documents
+    ]
+
+    return response
+
+# Get product by module/provider/slug
+@router.get("/lookup/{module}/{provider}/{slug}")
+def get_product_by_slug(
+    module: str,
+    provider: str,
+    slug: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get a product by module, provider, and slug (product_type-reference_number)"""
+    from app.models.product import PensionDetail, InvestmentDetail, ProtectionDetail, Document
+
+    # Normalize module name (URL uses 'pension' but DB uses 'retirement')
+    module_normalized = module
+    if module.lower() == 'pension':
+        module_normalized = 'retirement'
+
+    # Parse slug to extract product_type and reference_number
+    # Format: {product_type}-{reference_number}
+    # e.g., "workplace-123456" or "isa-345678" or "QROPS-****2345"
+    if '-' not in slug:
+        raise HTTPException(status_code=400, detail="Invalid slug format. Expected: {product_type}-{reference_number}")
+
+    parts = slug.split('-', 1)  # Split only on first dash
+    product_type_from_slug = parts[0]
+    reference_number = parts[1]
+
+    # Lookup product
+    product = db.query(Product).filter(
+        Product.user_id == current_user.id,
+        Product.module == module_normalized,
+        Product.provider == provider,
+        Product.reference_number == reference_number
+    ).first()
+
+    if not product:
+        raise HTTPException(status_code=404, detail=f"Product not found (module={module_normalized}, provider={provider}, ref={reference_number})")
+
+    # Build comprehensive response (same as get_product_details)
+    response = {
+        # Core product fields (using frontend-expected field names)
+        "id": product.id,
+        "name": product.product_name,  # Frontend expects "name"
+        "product_name": product.product_name,  # Keep for backwards compatibility
+        "provider": product.provider,
+        "reference_number": product.reference_number,
+        "product_type": product.product_type,
+        "module": product.module,
+
+        # Multi-jurisdiction
+        "currency": product.currency,
+        "jurisdiction": product.jurisdiction,
+
+        # Common fields
+        "value": product.current_value,  # Frontend expects "value"
+        "current_value": product.current_value,  # Keep for backwards compatibility
+        "initial_investment": product.initial_investment,
+        "start_date": product.start_date.isoformat() if product.start_date else None,
+        "maturity_date": product.maturity_date.isoformat() if product.maturity_date else None,
+        "status": product.status,
+
+        # Performance
+        "performance_ytd": product.performance_ytd,
+        "performance_1yr": product.performance_1yr,
+        "performance_3yr": product.performance_3yr,
+        "performance_5yr": product.performance_5yr,
+
+        # Fees
+        "annual_charge": product.annual_charge,
+        "platform_fee": product.platform_fee,
+        "other_fees": product.other_fees,
+
+        # Additional
+        "notes": product.notes,
+        "extra_metadata": product.extra_metadata,
+
+        "created_at": product.created_at.isoformat() if product.created_at else None,
+        "updated_at": product.updated_at.isoformat() if product.updated_at else None,
+    }
+
+    # Add type-specific details
+    if product.product_type == "pension" or product.module == "retirement":
+        pension_detail = db.query(PensionDetail).filter(PensionDetail.product_id == product.id).first()
+        if pension_detail:
+            response["pension_details"] = {
+                "pension_type": pension_detail.pension_type,
+                "retirement_age": pension_detail.retirement_age,
+                "projected_value_at_retirement": pension_detail.projected_value_at_retirement,
+                "employee_contribution": pension_detail.employee_contribution,
+                "employer_contribution": pension_detail.employer_contribution,
+                "contribution_frequency": pension_detail.contribution_frequency,
+                "death_benefit": pension_detail.death_benefit,
+                "guaranteed_period": pension_detail.guaranteed_period,
+                "tax_free_cash_percentage": pension_detail.tax_free_cash_percentage,
+                "annuity_rate": pension_detail.annuity_rate,
+                "includes_spouse_benefit": pension_detail.includes_spouse_benefit,
+                "spouse_benefit_percentage": pension_detail.spouse_benefit_percentage,
+            }
+
+    elif product.product_type == "investment" or product.module == "investment":
+        investment_detail = db.query(InvestmentDetail).filter(InvestmentDetail.product_id == product.id).first()
+        if investment_detail:
+            response["investment_details"] = {
+                "investment_type": investment_detail.investment_type,
+                "risk_rating": investment_detail.risk_rating,
+                "asset_allocation": investment_detail.asset_allocation,
+                "isa_type": investment_detail.isa_type,
+                "current_year_contribution": investment_detail.current_year_contribution,
+                "isa_allowance_used": investment_detail.isa_allowance_used,
+                "investment_strategy": investment_detail.investment_strategy,
+                "benchmark": investment_detail.benchmark,
+                "fund_codes": investment_detail.fund_codes,
+                "regular_investment_amount": investment_detail.regular_investment_amount,
+                "regular_investment_frequency": investment_detail.regular_investment_frequency,
+            }
+
+    elif product.product_type == "protection" or product.module == "protection":
+        protection_detail = db.query(ProtectionDetail).filter(ProtectionDetail.product_id == product.id).first()
+        if protection_detail:
+            response["protection_details"] = {
+                "protection_type": protection_detail.protection_type,
+                "sum_assured": protection_detail.sum_assured,
+                "premium": protection_detail.premium,
+                "premium_frequency": protection_detail.premium_frequency,
+                "term_years": protection_detail.term_years,
+                "is_joint_policy": protection_detail.is_joint_policy,
+                "includes_critical_illness": protection_detail.includes_critical_illness,
+                "includes_waiver_of_premium": protection_detail.includes_waiver_of_premium,
+                "in_trust": protection_detail.in_trust,
+                "trust_details": protection_detail.trust_details,
+                "beneficiaries": protection_detail.beneficiaries,
+                "smoker_status": protection_detail.smoker_status,
+                "medical_conditions": protection_detail.medical_conditions,
+            }
+
+    # Add documents
+    documents = db.query(Document).filter(Document.product_id == product.id).all()
+    response["documents"] = [
+        {
+            "id": doc.id,
+            "document_type": doc.document_type,
+            "document_name": doc.document_name,
+            "file_path": doc.file_path,
+            "file_size": doc.file_size,
+            "mime_type": doc.mime_type,
+            "uploaded_at": doc.uploaded_at.isoformat() if doc.uploaded_at else None,
+        }
+        for doc in documents
+    ]
+
+    return response
+
+# Get specific product (basic)
 @router.get("/{product_id}", response_model=ProductResponse)
 def get_product(
     product_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Get a specific product by ID"""
+    """Get a specific product by ID (basic info only)"""
     product = db.query(Product).filter(
         Product.id == product_id,
         Product.user_id == current_user.id
