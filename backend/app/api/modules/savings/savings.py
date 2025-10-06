@@ -116,6 +116,7 @@ async def get_savings_dashboard(
                 "product_name": p.name,
                 "provider": p.provider,
                 "product_value": float(p.value or 0),
+                "currency": p.currency or "GBP",
                 "interest_rate": p.extra_metadata.get("interest_rate", 0) if p.extra_metadata else 0,
                 "account_type": p.product_type or "savings_account",
                 "start_date": p.created_at.isoformat() if p.created_at else None,
