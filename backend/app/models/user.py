@@ -47,3 +47,6 @@ class User(Base):
 
     # Tax Profile (for dual-country tax planning)
     tax_profile = relationship("TaxProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
+
+    # Income Sources (for dual-country income tracking)
+    income_sources = relationship("IncomeSource", back_populates="user", cascade="all, delete-orphan")

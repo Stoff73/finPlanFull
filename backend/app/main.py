@@ -19,6 +19,8 @@ from app.api.pension.pension_schemes import router as pension_schemes_router
 from app.api.pension.pension_optimization import router as pension_optimization_router
 from app.api.docs import router as docs_router
 from app.api.dashboard import router as dashboard_router
+from app.api.tax_profile import router as tax_profile_router
+from app.api.income_sources import router as income_sources_router
 
 # Module routers - Protection
 from app.api.modules.protection.protection import router as protection_main_router
@@ -88,6 +90,8 @@ app.include_router(pension_schemes_router, prefix="/api", tags=["Pension Schemes
 app.include_router(pension_optimization_router, prefix="/api", tags=["Pension Optimization"])
 app.include_router(docs_router, prefix="/api/docs", tags=["Documentation"])
 app.include_router(dashboard_router, tags=["Dashboard"])
+app.include_router(tax_profile_router, prefix="/api/tax-profile", tags=["Tax Profile"])
+app.include_router(income_sources_router, prefix="/api/income-sources", tags=["Income Sources"])
 
 # Module routers
 app.include_router(protection_main_router, prefix="/api/modules/protection", tags=["Protection Module"])

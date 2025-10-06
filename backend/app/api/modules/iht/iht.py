@@ -119,7 +119,7 @@ def get_iht_dashboard(
 
     # --- Trust Summary ---
     trust_count = len(trusts)
-    total_trust_value = sum(t.trust_value or 0 for t in trusts)
+    total_trust_value = sum(t.value or 0 for t in trusts)
 
     # --- Status Assessment ---
     if net_estate == 0:
