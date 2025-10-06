@@ -24,6 +24,7 @@ from app.models.pension import (
 )
 from app.models.module_goal import ModuleGoal
 from app.models.module_metric import ModuleMetric
+from app.models.tax_profile import TaxProfile
 
 __all__ = [
     "User",
@@ -49,5 +50,6 @@ __all__ = [
     "LifetimeAllowanceTracking",
     "AutoEnrolmentTracking",
     "ModuleGoal",
-    "ModuleMetric"
+    "ModuleMetric",
+    "TaxProfile"
 ]

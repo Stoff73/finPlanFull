@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend Auth Test</title>
+</head>
+<body>
+    <h1>Frontend Auth Test</h1>
+    <div id="status"></div>
+    <button onclick="testLogin()">1. Login</button>
+    <button onclick="checkLocalStorage()">2. Check localStorage</button>
+    <button onclick="testProtectionEndpoint()">3. Test Protection Dashboard</button>
+    <pre id="output"></pre>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        const output = document.getElementById('output');
+        const status = document.getElementById('status');
+
+        function log(msg) {
+            output.textContent += msg + '\n';
+            console.log(msg);
+        }
+
+        async function testLogin() {
+            output.textContent = '';
+            log('=== Testing Login ===');
+
+            const formData = new FormData();
+            formData.append('username', 'demouser');
+            formData.append('password', 'demo123');
+
+            try {
+                const response = await fetch(`${API_URL}/api/auth/token`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                log(`Response status: ${response.status}`);
+                const data = await response.json();
+                log(`Response data: ${JSON.stringify(data, null, 2)}`);
+
+                if (data.access_token) {
+                    localStorage.setItem('access_token', data.access_token);
+                    log('✓ Token saved to localStorage');
+                    status.innerHTML = '<span style="color:green">✓ Logged in</span>';
+                } else {
+                    log('✗ No access_token in response');
+                    status.innerHTML = '<span style="color:red">✗ Login failed</span>';
+                }
+            } catch (error) {
+                log(`✗ Error: ${error.message}`);
+                status.innerHTML = `<span style="color:red">✗ Error: ${error.message}</span>`;
+            }
+        }
+
+        function checkLocalStorage() {
+            output.textContent = '';
+            log('=== Checking localStorage ===');
+
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                log(`✓ Token found: ${token.substring(0, 50)}...`);
+                log(`Token length: ${token.length}`);
+
+                // Decode JWT to check expiry
+                try {
+                    const parts = token.split('.');
+                    const payload = JSON.parse(atob(parts[1]));
+                    log(`Token payload: ${JSON.stringify(payload, null, 2)}`);
+
+                    const expiry = new Date(payload.exp * 1000);
+                    const now = new Date();
+                    log(`Expiry: ${expiry}`);
+                    log(`Current time: ${now}`);
+                    log(`Token valid: ${expiry > now ? 'YES' : 'NO (EXPIRED)'}`);
+                } catch (e) {
+                    log(`✗ Could not decode token: ${e.message}`);
+                }
+            } else {
+                log('✗ No token in localStorage');
+            }
+        }
+
+        async function testProtectionEndpoint() {
+            output.textContent = '';
+            log('=== Testing Protection Dashboard ===');
+
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                log('✗ No token found. Please login first (button 1)');
+                return;
+            }
+
+            log(`Using token: ${token.substring(0, 50)}...`);
+
+            try {
+                const response = await fetch(`${API_URL}/api/modules/protection/dashboard`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                log(`Response status: ${response.status}`);
+                log(`Response headers: ${JSON.stringify([...response.headers.entries()])}`);
+
+                const data = await response.json();
+                log(`Response data: ${JSON.stringify(data, null, 2)}`);
+
+                if (response.status === 200) {
+                    status.innerHTML = '<span style="color:green">✓ API call successful</span>';
+                } else {
+                    status.innerHTML = `<span style="color:red">✗ API returned ${response.status}</span>`;
+                }
+            } catch (error) {
+                log(`✗ Error: ${error.message}`);
+                status.innerHTML = `<span style="color:red">✗ Error: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

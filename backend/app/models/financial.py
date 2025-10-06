@@ -13,6 +13,9 @@ class BalanceSheet(Base):
     period_start = Column(Date, nullable=False)
     period_end = Column(Date, nullable=False)
 
+    # Currency
+    currency = Column(String, default="GBP")  # GBP, ZAR, EUR, USD
+
     # Assets
     cash_and_equivalents = Column(Float, default=0.0)
     investments = Column(Float, default=0.0)
@@ -44,6 +47,9 @@ class ProfitLoss(Base):
 
     period_start = Column(Date, nullable=False)
     period_end = Column(Date, nullable=False)
+
+    # Currency
+    currency = Column(String, default="GBP")  # GBP, ZAR, EUR, USD
 
     # Income
     salary_income = Column(Float, default=0.0)
@@ -82,6 +88,9 @@ class CashFlow(Base):
 
     period_start = Column(Date, nullable=False)
     period_end = Column(Date, nullable=False)
+
+    # Currency
+    currency = Column(String, default="GBP")  # GBP, ZAR, EUR, USD
 
     opening_balance = Column(Float, default=0.0)
 

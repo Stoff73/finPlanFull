@@ -2,6 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## GITHUB REPOSITORY
+
+**Repository**: https://github.com/Stoff73/finPlanFull
+**Branches**:
+- `main` - Production-ready code
+- `refactor/goal-based-modules` - Development branch
+
+**CI/CD**: GitHub Actions runs on all pushes and PRs (see `.github/workflows/ci.yml`)
+
 ## CRITICAL DEVELOPMENT RULES
 
 **IMPORTANT**: When making changes:
@@ -167,11 +176,18 @@ frontend/src/
 
 ### Running Tests
 
-#### Backend Tests (106+ tests - 100% pass rate)
+#### Backend Tests (189+ tests - 100% pass rate)
 
 ```bash
 # All backend tests with coverage
 cd backend && source venv/bin/activate && pytest --cov=app tests/ -v
+
+# Module API tests (83 tests)
+pytest tests/test_modules_protection.py -v     # 18 Protection module tests
+pytest tests/test_modules_savings.py -v        # 17 Savings module tests
+pytest tests/test_modules_investment.py -v     # 13 Investment module tests
+pytest tests/test_modules_retirement.py -v     # 14 Retirement module tests
+pytest tests/test_modules_iht.py -v            # 21 IHT module tests
 
 # IHT test suite (61 tests)
 pytest tests/test_iht_enhanced.py -v
@@ -211,9 +227,36 @@ npm test -- src/components/docs/__tests__ --watchAll=false
 npm test -- ComponentName.test.tsx --watchAll=false
 ```
 
+#### E2E Tests (Playwright)
+
+```bash
+cd frontend
+
+# Run all E2E tests
+npm run test:e2e
+
+# Run with UI mode (interactive)
+npm run test:e2e:ui
+
+# Run in headed mode (see browser)
+npm run test:e2e:headed
+
+# Debug mode (step through tests)
+npm run test:e2e:debug
+
+# View test report
+npm run test:e2e:report
+```
+
 #### Test Coverage Summary
 
-**Backend (106+ tests)**:
+**Backend (189+ tests)**:
+- ✅ **Module API Suite (83 tests)**: Complete CRUD and analytics for all 5 goal-based modules
+  - Protection: 18 tests (products, analytics, needs analysis)
+  - Savings: 17 tests (accounts, goals, analytics, emergency fund)
+  - Investment: 13 tests (portfolio, analytics, rebalancing)
+  - Retirement: 14 tests (pensions, projections, monte carlo)
+  - IHT Planning: 21 tests (dashboard, calculator, gifts, trusts)
 - ✅ **IHT Suite (61 tests)**: Complete UK IHT law (2024/25), taper relief, RNRB tapering, charitable rate, BPR/APR, edge cases (GWR/POAT, Quick Succession Relief, foreign assets)
 - ✅ **Documentation API (34 tests)**: File listing, content serving, search, categories, error handling
 - ✅ **Pension (12 tests)**: Annual Allowance, MPAA, taper calculations, carry-forward
@@ -224,11 +267,17 @@ npm test -- ComponentName.test.tsx --watchAll=false
 - ✅ **UI Components**: Narrative components, common components
 - ✅ **Integration**: API service tests
 
+**E2E Tests (Playwright)**:
+- ✅ **User Flows**: Login, navigation, module interactions
+- ✅ **Cross-browser**: Chromium, Firefox, WebKit
+- ✅ **Mobile**: Responsive design validation
+
 **Quality Metrics**:
 - 100% test pass rate across all suites
 - Comprehensive coverage of business logic
 - Edge case testing for complex calculations
 - Integration testing for multi-component workflows
+- E2E testing for critical user journeys
 
 ## CRITICAL FIXES APPLIED (DO NOT BREAK THESE)
 
@@ -443,6 +492,42 @@ All modules follow consistent endpoint patterns:
 
 ## PROJECT FEATURES
 
+### Recently Fixed Issues ✅ (2025-10-06)
+
+**Critical Application Fixes** - All modules now fully functional:
+
+1. **401 Authorization Errors (17 fixes across 8 files)**
+   - **Root Cause**: Token storage key mismatch between auth service and module pages
+   - **Fix**: Changed all `localStorage.getItem('token')` → `localStorage.getItem('access_token')`
+   - **Files Fixed**: All module frontend pages (Savings, Protection, IHT)
+   - **Status**: ✅ All module endpoints now return 200 OK
+
+2. **IHT Dashboard Backend Bugs (7 fixes)**
+   - **Bug A**: Wrong database relationships (`Gift.user_id` → `Gift.iht_profile_id`)
+   - **Bug B**: Wrong field names (`property_value`, `debts` → `estate_value`, `liabilities`)
+   - **Bug C**: Wrong Gift fields (`gift_date` → `date`, `gift_type == 'PET'` → `is_pet`)
+   - **Status**: ✅ IHT dashboard fully functional
+
+3. **Savings Dashboard Data Structure Mismatch**
+   - **Problem**: Frontend expected nested `data.metrics.emergency_fund` but backend returned flat structure
+   - **Fix**: Completely restructured backend response to match frontend TypeScript interfaces
+   - **Status**: ✅ Savings dashboard displays correctly
+
+4. **Backend Process Verification**
+   - **Problem**: Wrong backend process was running (old "GoalPlan API" instead of "Financial Planning API")
+   - **Fix**: Killed old processes, verified correct backend running
+   - **Verification**: `curl http://localhost:8000/` returns `"Financial Planning API"`
+   - **Status**: ✅ Correct backend verified
+
+**Testing Results**: All module endpoints tested with authentication - 100% success rate
+- ✅ Savings Dashboard, Accounts, Goals: 200 OK
+- ✅ Protection Analytics, Products: 200 OK
+- ✅ IHT Dashboard, Calculator, Gifts: 200 OK
+- ✅ Investment Dashboard: 200 OK
+- ✅ Retirement Dashboard: 200 OK
+
+**Documentation**: See `FINAL_FIX_SUMMARY.md` and `COMPREHENSIVE_FIX_SUMMARY.md` for complete fix details.
+
 ### Completed ✅
 - **UK Inheritance Tax Calculator** (Phase 2) - ✅ **LIVE at `/iht-calculator-complete`**
   - 7-year gift timeline with taper relief visualization
@@ -495,14 +580,16 @@ All modules follow consistent endpoint patterns:
 
 - **Infrastructure**
   - Mobile responsive design with dark mode
-  - Comprehensive test suite (106+ tests, 100% pass rate)
+  - Comprehensive test suite (189+ tests, 100% pass rate)
+  - E2E testing with Playwright
   - CI/CD pipeline with GitHub Actions
   - Docker containerization
   - Protected routes with JWT authentication
+  - GitHub repository with version control
 
 ### In Progress 🚧
-- Documentation polish and updates
-- UI/UX refinements for mobile responsiveness
+- Frontend component tests for module pages
+- Additional E2E test coverage
 - Performance optimization
 
 ### Key UK IHT Features
@@ -785,12 +872,48 @@ See `docs_tasks.md` for detailed implementation plan and task tracking.
 
 ## CI/CD PIPELINE
 
-GitHub Actions workflow (`.github/workflows/ci.yml`) runs on push/PR:
-- Backend tests (unit + integration)
-- Frontend tests (TypeScript compilation + unit tests)
-- Linting (Python: black/flake8, TypeScript: ESLint)
-- Security scans (safety for Python, npm audit)
-- Docker image builds (on main branch)
+**GitHub Actions** workflow (`.github/workflows/ci.yml`) runs automatically on:
+- **Triggers**: Push to `main`/`develop` branches, Pull Requests to `main`
+- **Repository**: https://github.com/Stoff73/finPlanFull
+
+**Pipeline Jobs**:
+
+1. **Backend Tests** (`backend-tests`)
+   - Python 3.11 setup with dependency caching
+   - Unit tests: auth, IHT, export (with coverage)
+   - Integration tests
+   - Coverage upload to Codecov
+
+2. **Frontend Tests** (`frontend-tests`)
+   - Node.js 18 setup with npm caching
+   - TypeScript compilation check (`npm run build`)
+   - Unit tests with coverage
+   - Coverage upload to Codecov
+
+3. **Linting** (`lint`)
+   - **Python**: black (code formatting), flake8 (code quality)
+   - **TypeScript/React**: ESLint (warnings don't fail build)
+
+4. **Security** (`security`)
+   - Python: `safety` check on dependencies
+   - Frontend: `npm audit` (high severity only)
+
+5. **Build** (`build`)
+   - Requires: backend-tests, frontend-tests, lint to pass
+   - Verifies backend imports
+   - Creates frontend production build
+   - Uploads frontend build artifacts
+
+6. **Docker** (`docker`)
+   - Only runs on push to `main` branch
+   - Builds backend and frontend Docker images
+   - Tags images with commit SHA
+   - Uploads Docker image artifacts
+
+**Quality Gates**:
+- All tests must pass (189+ backend tests, 11+ frontend tests)
+- TypeScript must compile without errors
+- Security scans must not find high-severity issues
 
 ## REMEMBER
 
@@ -799,3 +922,12 @@ GitHub Actions workflow (`.github/workflows/ci.yml`) runs on push/PR:
 - **Follow patterns** - Architecture is established, follow it
 - **Test credentials exist** - Use demo user for testing with seed data
 - **Documentation is up-to-date** - Update this file when patterns change
+- **GitHub repository** - Code is version controlled at https://github.com/Stoff73/finPlanFull
+- **Recent fixes verified** - All 401 errors, IHT bugs, and data structure issues have been resolved (2025-10-06)
+
+---
+
+**Last Updated**: October 6, 2025
+**Version**: 2.0 (Goal-Based Modules + Recent Critical Fixes)
+**Repository**: https://github.com/Stoff73/finPlanFull
+**Test Coverage**: 189+ backend tests, 11+ frontend tests, E2E with Playwright

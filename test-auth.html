@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auth Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Authentication Test Tool</h1>
+
+    <div class="section">
+        <h2>1. Check LocalStorage</h2>
+        <button onclick="checkLocalStorage()">Check Token</button>
+        <pre id="localStorage-result"></pre>
+    </div>
+
+    <div class="section">
+        <h2>2. Login</h2>
+        <input type="text" id="username" value="demouser" placeholder="Username" />
+        <input type="password" id="password" value="demo123" placeholder="Password" />
+        <button onclick="login()">Login</button>
+        <pre id="login-result"></pre>
+    </div>
+
+    <div class="section">
+        <h2>3. Test Protected Endpoint</h2>
+        <button onclick="testProtectedEndpoint()">Test /api/auth/me</button>
+        <pre id="protected-result"></pre>
+    </div>
+
+    <div class="section">
+        <h2>4. Test Dashboard</h2>
+        <button onclick="testDashboard()">Test /api/dashboard/overview</button>
+        <pre id="dashboard-result"></pre>
+    </div>
+
+    <div class="section">
+        <h2>5. Clear Storage</h2>
+        <button onclick="clearStorage()">Clear LocalStorage</button>
+        <pre id="clear-result"></pre>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+
+        function checkLocalStorage() {
+            const token = localStorage.getItem('access_token');
+            const oldToken = localStorage.getItem('token');
+            const result = document.getElementById('localStorage-result');
+
+            result.innerHTML = `
+access_token: ${token ? '✓ EXISTS' : '✗ NOT FOUND'}
+${token ? `Value: ${token.substring(0, 50)}...` : ''}
+
+token (old): ${oldToken ? '✓ EXISTS' : '✗ NOT FOUND'}
+${oldToken ? `Value: ${oldToken.substring(0, 50)}...` : ''}
+            `;
+            result.className = token ? 'success' : 'error';
+        }
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('login-result');
+
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+
+                const response = await fetch(`${API_URL}/api/auth/token`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const data = await response.json();
+                localStorage.setItem('access_token', data.access_token);
+
+                result.innerHTML = `✓ Login successful!\nToken saved to localStorage as 'access_token'\n${JSON.stringify(data, null, 2)}`;
+                result.className = 'success';
+            } catch (error) {
+                result.innerHTML = `✗ Login failed:\n${error.message}`;
+                result.className = 'error';
+            }
+        }
+
+        async function testProtectedEndpoint() {
+            const result = document.getElementById('protected-result');
+            const token = localStorage.getItem('access_token');
+
+            if (!token) {
+                result.innerHTML = '✗ No token found in localStorage. Please login first.';
+                result.className = 'error';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const data = await response.json();
+                result.innerHTML = `✓ Authentication successful!\n${JSON.stringify(data, null, 2)}`;
+                result.className = 'success';
+            } catch (error) {
+                result.innerHTML = `✗ Request failed:\n${error.message}`;
+                result.className = 'error';
+            }
+        }
+
+        async function testDashboard() {
+            const result = document.getElementById('dashboard-result');
+            const token = localStorage.getItem('access_token');
+
+            if (!token) {
+                result.innerHTML = '✗ No token found in localStorage. Please login first.';
+                result.className = 'error';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/dashboard/overview`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const data = await response.json();
+                result.innerHTML = `✓ Dashboard loaded successfully!\n${JSON.stringify(data, null, 2)}`;
+                result.className = 'success';
+            } catch (error) {
+                result.innerHTML = `✗ Request failed:\n${error.message}`;
+                result.className = 'error';
+            }
+        }
+
+        function clearStorage() {
+            localStorage.clear();
+            const result = document.getElementById('clear-result');
+            result.innerHTML = '✓ LocalStorage cleared';
+            result.className = 'success';
+        }
+
+        // Auto-check on load
+        checkLocalStorage();
+    </script>
+</body>
+</html>

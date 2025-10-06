@@ -74,3 +74,38 @@ def auth_headers(client, test_user):
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
+
+
+@pytest.fixture(scope="function")
+def db():
+    """Create a fresh database session for each test."""
+    # Create tables
+    Base.metadata.create_all(bind=engine)
+
+    # Create session
+    db_session = TestingSessionLocal()
+
+    yield db_session
+
+    # Cleanup
+    db_session.close()
+    Base.metadata.drop_all(bind=engine)
+
+
+@pytest.fixture(scope="function")
+def fresh_test_user(db):
+    """Create a fresh test user for each test."""
+    hashed_password = pwd_context.hash("testpass123")
+    user = User(
+        username="testuser_fresh",
+        email="testfresh@example.com",
+        hashed_password=hashed_password,
+        full_name="Test User Fresh"
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    yield user
+
+    # Cleanup handled by db fixture

@@ -22,6 +22,10 @@ class User(Base):
     financial_goals = Column(String)  # JSON string for now
     extra_metadata = Column(JSON)  # User profile metadata (age, retirement_age, etc.)
 
+    # Currency and Tax Settings
+    primary_currency = Column(String, default="GBP")  # GBP, ZAR, EUR, USD
+    secondary_currency = Column(String)  # Optional secondary currency for dual-country users
+
     # Relationships
     iht_profile = relationship("IHTProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     financial_statements = relationship("FinancialStatement", back_populates="user", cascade="all, delete-orphan")
@@ -40,3 +44,6 @@ class User(Base):
     # Module-based relationships
     module_goals = relationship("ModuleGoal", back_populates="user", cascade="all, delete-orphan")
     module_metrics = relationship("ModuleMetric", back_populates="user", cascade="all, delete-orphan")
+
+    # Tax Profile (for dual-country tax planning)
+    tax_profile = relationship("TaxProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")

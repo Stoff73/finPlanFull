@@ -16,6 +16,10 @@ class Product(Base):
     provider = Column(String)
     reference_number = Column(String)
 
+    # Multi-jurisdiction fields
+    currency = Column(String, default="GBP")  # GBP, ZAR, EUR, USD
+    jurisdiction = Column(String, default="UK")  # UK, SA, offshore, international
+
     # Common fields
     current_value = Column(Float, default=0.0)
     initial_investment = Column(Float, default=0.0)
