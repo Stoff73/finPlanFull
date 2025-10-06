@@ -111,6 +111,23 @@ async def login(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+@router.post("/refresh", response_model=Token)
+async def refresh_token(
+    current_user: Annotated[User, Depends(get_current_user)]
+):
+    """
+    Refresh access token for authenticated user
+    """
+    # Create new access token
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": current_user.username, "user_id": current_user.id},
+        expires_delta=access_token_expires
+    )
+
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
 @router.get("/me", response_model=UserSchema)
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_active_user)]

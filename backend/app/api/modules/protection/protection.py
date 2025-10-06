@@ -78,26 +78,34 @@ async def get_protection_dashboard(
     coverage_adequacy = "adequate"  # Would calculate based on user data
     coverage_gap = 0  # Would calculate: recommended_coverage - total_coverage
 
+    # Calculate coverage adequacy percentage (0-100+)
+    # Simplified calculation - in production would use actual needs analysis
+    recommended_coverage = 100000  # Placeholder - would calculate from user income/needs
+    coverage_adequacy_pct = (total_coverage / recommended_coverage * 100) if recommended_coverage > 0 else 0
+
     return {
-        "total_coverage": total_coverage,
-        "active_policies": len(protection_products),
-        "total_monthly_premium": total_premiums,
-        "coverage_by_type": coverage_by_type,
-        "coverage_adequacy": coverage_adequacy,
-        "coverage_gap": coverage_gap,
-        "policies": [
+        "metrics": {
+            "total_coverage": total_coverage,
+            "active_policies": len(protection_products),
+            "coverage_gap": coverage_gap,
+            "monthly_premiums": total_premiums
+        },
+        "products": [
             {
                 "id": p.id,
-                "name": p.name,
-                "product_type": p.product_type,
-                "provider": p.provider,
-                "value": float(p.value or 0),
-                "monthly_premium": p.extra_metadata.get("monthly_premium", 0) if p.extra_metadata else 0,
-                "start_date": p.start_date.isoformat() if p.start_date else None,
-                "status": p.status
+                "product_name": p.name,
+                "provider": p.provider or "Unknown Provider",
+                "product_value": float(p.value or 0),
+                "contribution": p.extra_metadata.get("monthly_premium", 0) if p.extra_metadata else 0,
+                "product_category": p.product_type or "other",
+                "start_date": p.start_date.isoformat() if p.start_date else datetime.now().isoformat()
             }
             for p in protection_products
-        ]
+        ],
+        "analytics": {
+            "coverage_adequacy": coverage_adequacy_pct,
+            "premium_trend": []  # Would calculate historical premium data
+        }
     }
 
 

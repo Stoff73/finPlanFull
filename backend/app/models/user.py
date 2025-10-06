@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.base import Base
@@ -20,6 +20,7 @@ class User(Base):
     # Financial profile
     risk_tolerance = Column(String)  # conservative, moderate, aggressive
     financial_goals = Column(String)  # JSON string for now
+    extra_metadata = Column(JSON)  # User profile metadata (age, retirement_age, etc.)
 
     # Relationships
     iht_profile = relationship("IHTProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
